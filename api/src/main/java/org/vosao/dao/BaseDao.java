@@ -24,18 +24,14 @@ package org.vosao.dao;
 
 import java.util.List;
 
+import org.vosao.dao.AbstractDao;
 import org.vosao.entity.BaseEntity;
 
-import com.google.appengine.api.datastore.Key;
 
-public interface BaseDao<T extends BaseEntity> 
-		extends AbstractDao {
+
+public interface BaseDao<T extends BaseEntity> extends AbstractDao {
 
 	String getKind();
-	
-	Key getKey(Long id);
-
-	List<Key> getKeys(List<Long> ids);
 	
 	T save(final T model);
 	

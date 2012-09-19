@@ -22,24 +22,24 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.getBooleanProperty;
-import static org.vosao.utils.EntityUtil.getStringProperty;
-import static org.vosao.utils.EntityUtil.setProperty;
 
-import com.google.appengine.api.datastore.Entity;
+
+
+
+
 
 /**
  * @author Alexander Oleynik
  */
 public class PageAttributeEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 8L;
+	public static final long serialVersionUID = 8L;
 
-	private String pageUrl;
-	private String name;
-	private String title;
-	private String defaultValue;
-	private boolean inherited;
+	public String pageUrl;
+	public String name;
+	public String title;
+	public String defaultValue;
+	public boolean inherited;
 
 	public String toString() {
 		return "PageAttributeEntity(" + pageUrl + ", " + name + ", inherited: " + inherited + ")";
@@ -58,26 +58,6 @@ public class PageAttributeEntity extends BaseEntityImpl {
 		this.inherited = inherited;
 	}
 
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		pageUrl = getStringProperty(entity, "pageUrl");
-		name = getStringProperty(entity, "name");
-		inherited = getBooleanProperty(entity, "inherited", false);
-		title = getStringProperty(entity, "title");
-		defaultValue = getStringProperty(entity, "defaultValue");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "pageUrl", pageUrl, true);
-		setProperty(entity, "name", name, true);
-		setProperty(entity, "inherited", inherited, true);
-		setProperty(entity, "title", title, false);
-		setProperty(entity, "defaultValue", defaultValue, false);
-	}
-	
 	public String getName() {
 		return name;
 	}

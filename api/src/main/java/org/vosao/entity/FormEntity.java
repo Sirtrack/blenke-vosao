@@ -22,8 +22,8 @@
 
 package org.vosao.entity;
 
-import com.google.appengine.api.datastore.Entity;
-import static org.vosao.utils.EntityUtil.*;
+
+
 
 /**
  * 
@@ -32,17 +32,17 @@ import static org.vosao.utils.EntityUtil.*;
  */
 public class FormEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 2L;
+	public static final long serialVersionUID = 2L;
 
-	private String name;
-	private String title;
-	private String email;
-	private String letterSubject;
-	private String sendButtonTitle;
-	private boolean showResetButton;
-	private String resetButtonTitle;
-	private boolean enableCaptcha;
-	private boolean enableSave;
+	public String name;
+	public String title;
+	public String email;
+	public String letterSubject;
+	public String sendButtonTitle;
+	public boolean showResetButton;
+	public String resetButtonTitle;
+	public boolean enableCaptcha;
+	public boolean enableSave;
 
 	public FormEntity() {
 	}
@@ -56,34 +56,6 @@ public class FormEntity extends BaseEntityImpl {
 		letterSubject = aSubject;
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		name = getStringProperty(entity, "name");
-		email = getStringProperty(entity, "email");
-		title = getStringProperty(entity, "title");
-		letterSubject = getStringProperty(entity, "letterSubject");
-		sendButtonTitle = getStringProperty(entity, "sendButtonTitle");
-		resetButtonTitle = getStringProperty(entity, "resetButtonTitle");
-		showResetButton = getBooleanProperty(entity, "showResetButton", false);
-		enableCaptcha = getBooleanProperty(entity, "enableCaptcha", false);
-		enableSave = getBooleanProperty(entity, "enableSave", false);
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "name", name, true);
-		setProperty(entity, "email", email, false);
-		setProperty(entity, "title", title, false);
-		setProperty(entity, "letterSubject", letterSubject, false);
-		setProperty(entity, "sendButtonTitle", sendButtonTitle, false);
-		setProperty(entity, "resetButtonTitle", resetButtonTitle, false);
-		setProperty(entity, "showResetButton", showResetButton, false);
-		setProperty(entity, "enableCaptcha", enableCaptcha, false);
-		setProperty(entity, "enableSave", enableSave, false);
-	}
-
 	public String getName() {
 		return name;
 	}

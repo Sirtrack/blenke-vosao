@@ -34,9 +34,9 @@ import org.vosao.entity.BaseEntity;
 public interface QueryCache {
 
 	void putQuery(Class clazz, String query, Object[] params, 
-			List<BaseEntity> list);
+			List<? extends BaseEntity> list);
 
-	List<BaseEntity> getQuery(Class clazz, String query, Object[] params);
+	List<? extends BaseEntity> getQuery(Class clazz, String query, Object[] params);
 	
 	void removeQueries(Class clazz);
 	

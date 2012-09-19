@@ -22,29 +22,29 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.getBooleanProperty;
-import static org.vosao.utils.EntityUtil.getStringProperty;
-import static org.vosao.utils.EntityUtil.getTextProperty;
-import static org.vosao.utils.EntityUtil.setProperty;
-import static org.vosao.utils.EntityUtil.setTextProperty;
 
-import com.google.appengine.api.datastore.Entity;
+
+
+
+
+
+
 
 public class PluginEntity extends BaseEntityImpl {
 	
-	private static final long serialVersionUID = 3L;
+	public static final long serialVersionUID = 3L;
 
-	private String name;
-	private String title;
-	private String description;
-	private String website;
-	private String configStructure;
-	private String configData;
-	private String entryPointClass;
-	private String configURL;
-	private String pageHeader;
-	private String version;
-	private boolean disabled;
+	public String name;
+	public String title;
+	public String description;
+	public String website;
+	public String configStructure;
+	public String configData;
+	public String entryPointClass;
+	public String configURL;
+	public String pageHeader;
+	public String version;
+	public boolean disabled;
 
 	public PluginEntity() {
 		configStructure = "";
@@ -53,38 +53,6 @@ public class PluginEntity extends BaseEntityImpl {
 		disabled = false;
     }
     
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		name = getStringProperty(entity, "name");
-		title = getStringProperty(entity, "title");
-		description = getStringProperty(entity, "description");
-		website = getStringProperty(entity, "website");
-		configStructure = getTextProperty(entity, "configStructure");
-		configData = getTextProperty(entity, "configData");
-		entryPointClass = getStringProperty(entity, "entryPointClass");
-		configURL = getStringProperty(entity, "configURL");
-		pageHeader = getTextProperty(entity, "pageHeader");
-		version = getStringProperty(entity, "version");
-		disabled = getBooleanProperty(entity, "disabled", true);
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "name", name, true);
-		setProperty(entity, "title", title, false);
-		setProperty(entity, "description", description, false);
-		setProperty(entity, "website", website, false);
-		setTextProperty(entity, "configStructure", configStructure);
-		setTextProperty(entity, "configData", configData);
-		setProperty(entity, "entryPointClass", entryPointClass, false);
-		setProperty(entity, "configURL", configURL, false);
-		setTextProperty(entity, "pageHeader", pageHeader);
-		setProperty(entity, "version", version, false);
-		setProperty(entity, "disabled", disabled, true);
-	}
-
 	public PluginEntity(String name, String title, String configStructure,
     		String configData) {
 		this();

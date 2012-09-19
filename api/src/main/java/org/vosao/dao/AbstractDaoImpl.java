@@ -31,6 +31,7 @@ import org.vosao.dao.cache.EntityCache;
 import org.vosao.dao.cache.QueryCache;
 import org.vosao.global.SystemService;
 
+
 public class AbstractDaoImpl implements AbstractDao, Serializable {
 
 	protected static final Log logger = LogFactory.getLog(AbstractDaoImpl.class);

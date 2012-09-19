@@ -22,50 +22,32 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.getLongProperty;
-import static org.vosao.utils.EntityUtil.getStringProperty;
-import static org.vosao.utils.EntityUtil.getListProperty;
-import static org.vosao.utils.EntityUtil.setProperty;
+
+
+
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Entity;
+
 
 /**
  * @author Alexander Oleynik
  */
 public class TagEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 
-	private Long parent;
-	private String name;
-	private String title;
-	private List<String> pages;
+	public Long parent;
+	public String name;
+	public String title;
+	public List<String> pages;
 	
 	public TagEntity() {
 		pages = new ArrayList<String>();
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		parent = getLongProperty(entity, "parent");
-		name = getStringProperty(entity, "name");
-		title = getStringProperty(entity, "title");
-		pages = getListProperty(entity, "pages");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "name", name, true);
-		setProperty(entity, "title", title, false);
-		setProperty(entity, "parent", parent, true);
-		setProperty(entity, "pages", pages);
-	}
-
 	public TagEntity(Long aParent, String aName, String aTitle) {
 		this();
 		name = aName;

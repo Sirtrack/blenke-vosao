@@ -23,7 +23,6 @@
 package org.vosao.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -31,20 +30,14 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.vosao.common.VosaoContext;
-import org.vosao.entity.BaseEntity;
-import org.vosao.utils.EntityUtil;
+import org.vosao.entity.BaseEntityImpl;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 
-public class BaseDaoImpl<T extends BaseEntity> 
-		extends AbstractDaoImpl implements BaseDao<T>{
+
+import siena.Model;
+import siena.Query;
+
+public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl implements BaseDao<T>{
 	
 	protected static final Log logger = LogFactory.getLog(
 			BaseDaoImpl.class);
@@ -52,22 +45,22 @@ public class BaseDaoImpl<T extends BaseEntity>
 	private static int QUERY_LIMIT = 100000;
 	private static int CHUNK_SIZE = 1000;
 	
-	private Class clazz;
+	private Class<T> clazz;
 	private String kind;
 
-	public BaseDaoImpl(Class aClass) {
+	public BaseDaoImpl(Class<T> aClass) {
 		clazz = aClass;
 		kind = createKind();
 	}
 	
-	public BaseDaoImpl(Class aClass, String aKind) {
+	public BaseDaoImpl(Class<T> aClass, String aKind) {
 		clazz = aClass;
 		kind = aKind;
 	}
 
-	private DatastoreService getDatastore() {
-		return getSystemService().getDatastore();
-	}
+//	private DatastoreService getDatastore() {
+//		return getSystemService().getDatastore();
+//	}
 
 	@Override
 	public void clearCache() {
@@ -88,15 +81,8 @@ public class BaseDaoImpl<T extends BaseEntity>
 		if (model != null) {
 			return model;
 		}
-		try {
-			getDao().getDaoStat().incGetCalls();
-			model = createModel(getDatastore().get(getKey(id)));
-			getEntityCache().putEntity(clazz, id, model);
-			return model;
-		}
-		catch (EntityNotFoundException e) {
-			return null;
-		}
+    
+		return Model.getByKey(clazz, id);
 	}
 
 	@Override
@@ -104,7 +90,9 @@ public class BaseDaoImpl<T extends BaseEntity>
 		if (ids == null) {
 			return Collections.EMPTY_LIST;
 		}
-		List<Key> keys = new ArrayList<Key>();
+		
+		List<Long> keys = new ArrayList<Long>();
+
 		List<T> result = new ArrayList<T>();
 		for (Long id : ids) {
 			if (id != null && id > 0) {
@@ -113,12 +101,13 @@ public class BaseDaoImpl<T extends BaseEntity>
 					result.add(model);
 				}
 				else {
-					keys.add(getKey(id));
+					keys.add(id);
 				}
 			}
 		}
 		getDao().getDaoStat().incGetCalls();
-		List<T> models = createModels(getDatastore().get(keys).values());
+		List<T> models = Model.batch(clazz).getByKeys(keys);
+		    
 		for (T model : models) {
 			getEntityCache().putEntity(clazz, model.getId(), model);
 		}
@@ -126,18 +115,6 @@ public class BaseDaoImpl<T extends BaseEntity>
 		return result;
 	}
 
-	private T createModel(Entity entity) {
-		try {
-			T model = (T)clazz.newInstance();
-			model.load(entity);
-			return model;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
 	@Override
 	public void remove(Long id) {
 		if (id == null) {
@@ -145,40 +122,36 @@ public class BaseDaoImpl<T extends BaseEntity>
 		}
 		getEntityCache().removeEntity(clazz, id);
 		getQueryCache().removeQueries(clazz);
-		getDatastore().delete(getKey(id));
+
+ 		Model.getByKey(clazz, id).delete();
 	}
 
 	@Override
 	public void remove(List<Long> ids) {
+	  List<T> lt = new ArrayList<T>();
 		for (Long id : ids) {
 			getEntityCache().removeEntity(clazz, id);
 		}
-		getQueryCache().removeQueries(clazz);
-		getDatastore().delete(getKeys(ids));
+    getQueryCache().removeQueries(clazz);
+    Model.batch(clazz).deleteByKeys(ids);
 	}
 
 	@Override
 	public void removeAll() {
-		Query q = newQuery();
-		removeSelected(q);
+		removeSelected(Model.all(clazz));
 	}
 
-	protected void removeSelected(Query q) {
+	protected void removeSelected(Query<T> query) {
 		getQueryCache().removeQueries(clazz);
 		getDao().getDaoStat().incQueryCalls();
-		PreparedQuery p = getDatastore().prepare(q);
-		List<Key> keys = new ArrayList<Key>();
 		int count = 0;
-		for (Entity entity : p.asIterable(FetchOptions.Builder.withChunkSize(CHUNK_SIZE))) {
-			keys.add(entity.getKey());
-			// GAE Datastore one call delete limit
-			if (count++ >= 499) {
-				getDatastore().delete(keys);
-				keys.clear();
-				count = 0;
-			}
-		}
-		getDatastore().delete(keys);
+		
+    Query<T> q = query.paginate(CHUNK_SIZE).stateful();
+    List<T> ts = q.fetchKeys();
+    while( ts.size() > 0 ){
+      Model.batch(clazz).delete(ts);
+      ts = q.nextPage().fetchKeys();
+    }
 	}
 	
 	@Override
@@ -193,121 +166,115 @@ public class BaseDaoImpl<T extends BaseEntity>
 		
 	private T save(T model, boolean audit) {
 		getQueryCache().removeQueries(clazz);
-		Entity entity = null;
+		T entity = null;
 		if (model.getId() != null) {
-			try {
-				getDao().getDaoStat().incGetCalls();
-				entity = getDatastore().get(getKey(model.getId()));
-				getEntityCache().removeEntity(clazz, model.getId());
-			}
-			catch (EntityNotFoundException e) {
-				logger.error("Entity not found " + clazz.getName() + " " 
-						+ model.getId());
-			}
+			getDao().getDaoStat().incGetCalls();
+			entity = Model.getByKey(clazz, model.id);
+			getEntityCache().removeEntity(clazz, model.getId());
+
+			if (entity != null) {
+	      model.id = entity.id;
+	    }
 		}
-		if (entity == null) {
-			entity = new Entity(getKind());
-			model.setCreateUserEmail(getCurrentUserEmail());
-		}
+		else {
+       model.setCreateUserEmail(getCurrentUserEmail());
+    } 
+		
 		if (audit) {
-			model.setModDate(new Date());
-			model.setModUserEmail(getCurrentUserEmail());
+		  model.setModDate(new Date());
+		  model.setModUserEmail(getCurrentUserEmail());
 		}
-		model.save(entity);
-		getDatastore().put(entity);
-		model.setKey(entity.getKey());
+		model.save();
+		
 		return model;
 	}
 
-	@Override
-	public List<T> select() {
-		List<T> result = (List<T>) getQueryCache().getQuery(clazz, 
-				clazz.getName(), null);
-		if (result == null) {
-			Query q = newQuery();
-			result = selectNotCache(q);
-			getQueryCache().putQuery(clazz, clazz.getName(), null, 
-					(List<BaseEntity>)result);
-		}
-		return result;
-	}
 
-	private List<T> createModels(Collection<Entity> list) {
-		List<T> result = new ArrayList<T>();
-		for (Entity entity : list) {
-			result.add(createModel(entity));
-		}
-		return result;
-	}
-	
-	@Override
-	public Key getKey(Long id) {
-		return KeyFactory.createKey(getKind(), (Long)id);
-	}
+  @Override
+  public List<T> select() {
+    List<T> result = (List<T>) getQueryCache().getQuery(clazz, 
+        clazz.getName(), null);
+    if (result == null) {
+      Query q = newQuery();
+      result = selectNotCache(q);
+      getQueryCache().putQuery(clazz, clazz.getName(), null, 
+          (List<T>)result);
+    }
+    return result;
+  }
 
-	@Override
-	public List<Key> getKeys(List<Long> ids) {
-		List<Key> result = new ArrayList<Key>();
-		for (Long id : ids) {
-			result.add(getKey(id));
-		}
-		return result;
-	}
-	
-	protected List<T> select(Query query, String queryId, Object[] params) {
-		return select(query, queryId, QUERY_LIMIT, params);
-	}
+  protected List<T> select(Query query, String queryId, Object[] params) {
+    return select(query, queryId, QUERY_LIMIT, params);
+  }
 
-	protected List<T> select(Query query, String queryId, int queryLimit, 
-			Object[] params) {
-		List<T> result = (List<T>) getQueryCache().getQuery(clazz, queryId, 
-				params);
-		if (result == null) {
-			getDao().getDaoStat().incQueryCalls();
-			result = selectNotCache(query);
-			getQueryCache().putQuery(clazz, queryId, params, 
-					(List<BaseEntity>)result);			
-		}
-		return result;
-	}
+  protected T selectOne(Query query, String queryId, int queryLimit, 
+      Object[] params) {
+    List<T> result = (List<T>) getQueryCache().getQuery(clazz, queryId, 
+        params);
+    if (result == null || result.size()==0) {
+      getDao().getDaoStat().incQueryCalls();
+      T one = selectOneNotCache(query);
+      if(one == null)
+        return null;
+      result =  new ArrayList<T>();
+      result.add(one);
+      getQueryCache().putQuery(clazz, queryId, params, result);      
+    }
+    if( result == null || result.size()==0)
+      return null;
+    
+    return result.get(0);
+  }
 
-	protected List<T> selectNotCache(Query query) {
-		getDao().getDaoStat().incQueryCalls();
-		PreparedQuery p = getDatastore().prepare(query);
-		List<Entity> entities = new ArrayList<Entity>();
-		for (Entity entity : p.asIterable(FetchOptions.Builder.withChunkSize(CHUNK_SIZE))) {
-			entities.add(entity);
-		}
-		return createModels(entities);
-	}
+  protected List<T> select(Query query, String queryId, int queryLimit, 
+      Object[] params) {
+    List<T> result = (List<T>) getQueryCache().getQuery(clazz, queryId, 
+        params);
+    if (result == null) {
+      getDao().getDaoStat().incQueryCalls();
+      result = selectNotCache(query);
+      getQueryCache().putQuery(clazz, queryId, params, 
+          (List<T>)result);      
+    }
+    return result;
+  }
 
+  protected T selectOneNotCache(Query query) {
+    getDao().getDaoStat().incQueryCalls();
+
+    return (T)query.get();
+  }
+
+  protected List<T> selectNotCache(Query query) {
+    getDao().getDaoStat().incQueryCalls();
+
+//    List<Entity> entities = new ArrayList<Entity>();
+//    Query<T> q = query.paginate(CHUNK_SIZE).stateful();
+//    List<T> ts = q.fetchKeys();
+//    for (Entity entity : p.asIterable(FetchOptions.Builder.withChunkSize(CHUNK_SIZE))) {
+//      entities.add(entity);
+//    }
+//    return createModels(entities);
+    return query.fetch();
+  }
+  
+  
 	protected T selectOne(Query query, String queryId, Object[] params) {
-		List<T> list = select(query, queryId, params);
-		if (list.isEmpty()) {
-			return null;
-		}
-		if (list.size() > 1) {
-			logger.error("May be consistency error. Multiple result for select one query " 
-					+ clazz.getName() + " " + queryId + params.toString());
-		}
-		return list.get(0);
+		return selectOne(query, queryId, QUERY_LIMIT, params);
 	}
 		
 	protected Object[] params(Object...objects) {
 		return objects;
 	}
 
-	protected Query newQuery() {
-		return new Query(getKind());
-	}
-	
 	@Override
 	public String getKind() {
 		return kind;
 	}
 
 	private String createKind() {
-		return EntityUtil.getKind(clazz);
+    String name = clazz.getName();
+    return name.substring(name.lastIndexOf('.') + 1);
 	}
 	
 	private String getCurrentUserEmail() {
@@ -315,18 +282,13 @@ public class BaseDaoImpl<T extends BaseEntity>
 				: VosaoContext.getInstance().getUser().getEmail();
 	}
 	
-	protected int count(Query query) {
-		getDao().getDaoStat().incQueryCalls();
-		query.setKeysOnly();
-		PreparedQuery p = getDatastore().prepare(query);
-		int count = 0;
-		for (Entity entity : p.asIterable(FetchOptions.Builder.withChunkSize(CHUNK_SIZE))) count++;
-		return count;
-	}
-
 	@Override
 	public int count() {
-		return count(newQuery());
+		return Model.all(clazz).count();
 	}
-	
+
+	public Query<T> newQuery(){
+	  return Model.all(clazz);
+	}
+
 }

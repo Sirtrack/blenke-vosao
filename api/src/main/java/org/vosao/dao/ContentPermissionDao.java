@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.vosao.entity.ContentPermissionEntity;
 
+
 /**
  * @author Alexander Oleynik
  */

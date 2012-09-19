@@ -22,14 +22,14 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.getBooleanProperty;
-import static org.vosao.utils.EntityUtil.getDateProperty;
-import static org.vosao.utils.EntityUtil.getIntegerProperty;
-import static org.vosao.utils.EntityUtil.getLongProperty;
-import static org.vosao.utils.EntityUtil.getStringProperty;
-import static org.vosao.utils.EntityUtil.getTextProperty;
-import static org.vosao.utils.EntityUtil.setProperty;
-import static org.vosao.utils.EntityUtil.setTextProperty;
+
+
+
+
+
+
+
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +48,7 @@ import org.vosao.utils.DateUtil;
 import org.vosao.utils.FolderUtil;
 import org.vosao.utils.UrlUtil;
 
-import com.google.appengine.api.datastore.Entity;
+
 
 /**
  * @author Alexander Oleynik
@@ -61,35 +61,35 @@ public class PageEntity extends BaseEntityImpl {
 	 * Titles are stored in string list. Content language stored in first two 
 	 * chars. 
 	 */
-	private String title;
-	private String friendlyURL;
-	private String parentUrl;
-	private Long template;
-	private Date publishDate;
-	private Date endPublishDate;
-	private boolean commentsEnabled;
-	private Integer version;
-	private String versionTitle;
-	private PageState state;
-	private PageType pageType;
-	private Long structureId;
-	private Long structureTemplateId;
-	private String keywords;
-	private String description;
-	private boolean searchable;
-	private Integer sortIndex;
-	private boolean velocityProcessing;
-	private boolean wikiProcessing;
-	private String headHtml;
-	private boolean skipPostProcessing;
-	private boolean cached;
-	private String contentType;
-	private boolean enableCkeditor;
-	private String attributes;
-	private boolean restful;
+	public String title;
+	public String friendlyURL;
+	public String parentUrl;
+	public Long template;
+	public Date publishDate;
+	public Date endPublishDate;
+	public boolean commentsEnabled;
+	public Integer version;
+	public String versionTitle;
+	public PageState state;
+	public PageType pageType;
+	public Long structureId;
+	public Long structureTemplateId;
+	public String keywords;
+	public String description;
+	public boolean searchable;
+	public Integer sortIndex;
+	public boolean velocityProcessing;
+	public boolean wikiProcessing;
+	public String headHtml;
+	public boolean skipPostProcessing;
+	public boolean cached;
+	public String contentType;
+	public boolean enableCkeditor;
+	public String attributes;
+	public boolean restful;
 
 	// not persisted
-	private Map<String, String> titles;
+	private transient Map<String, String> titles;
 	
 	public PageEntity() {
 		publishDate = new Date();
@@ -110,68 +110,6 @@ public class PageEntity extends BaseEntityImpl {
 		enableCkeditor = true;
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		title = getTextProperty(entity, "title");
-		friendlyURL = getStringProperty(entity, "friendlyURL");
-		parentUrl = getStringProperty(entity, "parentUrl");
-		template = getLongProperty(entity, "template");
-		publishDate = getDateProperty(entity, "publishDate");
-		endPublishDate = getDateProperty(entity, "endPublishDate");
-		commentsEnabled = getBooleanProperty(entity, "commentsEnabled", false);
-		version = getIntegerProperty(entity, "version", 1);
-		versionTitle = getStringProperty(entity, "versionTitle");
-		state = PageState.valueOf(getStringProperty(entity, "state"));
-		pageType = PageType.valueOf(getStringProperty(entity, "pageType"));
-		structureId = getLongProperty(entity, "structureId");
-		structureTemplateId = getLongProperty(entity, "structureTemplateId");
-		keywords = getTextProperty(entity, "keywords");
-		description = getTextProperty(entity, "description");
-		searchable = getBooleanProperty(entity, "searchable", true);
-		sortIndex = getIntegerProperty(entity, "sortIndex", 0);
-		velocityProcessing = getBooleanProperty(entity, "velocityProcessing", false);
-		headHtml = getTextProperty(entity, "headHtml");
-		skipPostProcessing = getBooleanProperty(entity, "skipPostProcessing", false);
-		cached = getBooleanProperty(entity, "cached", true);
-		contentType = getStringProperty(entity, "contentType");
-		wikiProcessing = getBooleanProperty(entity, "wikiProcessing", false);
-		enableCkeditor = getBooleanProperty(entity, "enableCkeditor", true);
-		attributes = getStringProperty(entity, "attributes");
-		restful = getBooleanProperty(entity, "restful", false);
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setTextProperty(entity, "title", title);
-		setProperty(entity, "friendlyURL", friendlyURL.toLowerCase(), true);
-		setProperty(entity, "parentUrl", parentUrl, true);
-		setProperty(entity, "template", template, true);
-		setProperty(entity, "publishDate", publishDate, true);
-		setProperty(entity, "endPublishDate", endPublishDate, true);
-		setProperty(entity, "commentsEnabled", commentsEnabled, false);
-		setProperty(entity, "version", version, true);
-		setProperty(entity, "versionTitle", versionTitle, false);
-		setProperty(entity, "state", state.name(), false);
-		setProperty(entity, "pageType", pageType.name(), false);
-		setProperty(entity, "structureId", structureId, true);
-		setProperty(entity, "structureTemplateId", structureTemplateId, true);
-		setTextProperty(entity, "keywords", keywords);
-		setTextProperty(entity, "description", description);
-		setProperty(entity, "searchable", searchable, false);
-		setProperty(entity, "sortIndex", sortIndex, false);
-		setProperty(entity, "velocityProcessing", velocityProcessing, false);
-		setTextProperty(entity, "headHtml", headHtml);
-		setProperty(entity, "skipPostProcessing", skipPostProcessing, false);
-		setProperty(entity, "cached", cached, false);
-		setProperty(entity, "contentType", contentType, false);
-		setProperty(entity, "wikiProcessing", wikiProcessing, false);
-		setProperty(entity, "enableCkeditor", enableCkeditor, false);
-		setProperty(entity, "attributes", attributes, false);
-		setProperty(entity, "restful", restful, false);
-	}
-
 	public PageEntity(String title, String friendlyURL, 
 			Long aTemplate, Date publish) {
 		this(title, friendlyURL, aTemplate);

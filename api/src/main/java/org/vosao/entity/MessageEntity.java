@@ -22,37 +22,21 @@
 
 package org.vosao.entity;
 
-import com.google.appengine.api.datastore.Entity;
-import static org.vosao.utils.EntityUtil.*;
+
+
 
 /**
  * @author Alexander Oleynik
  */
 public class MessageEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 2L;
+	public static final long serialVersionUID = 2L;
 
-	private String code;
-	private String languageCode;
-	private String value;
+	public String code;
+	public String languageCode;
+	public String value;
 
 	public MessageEntity() {
-	}
-
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		code = getStringProperty(entity, "code");
-		languageCode = getStringProperty(entity, "languageCode");
-		value = getStringProperty(entity, "value");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "code", code, true);
-		setProperty(entity, "languageCode", languageCode, true);
-		setProperty(entity, "value", value, false);
 	}
 
 	public MessageEntity(final String code, final String languageCode, 

@@ -22,8 +22,6 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.*;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,87 +30,36 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 
-import com.google.appengine.api.datastore.Entity;
 
 public class ConfigEntity extends BaseEntityImpl {
 
 	private static final long serialVersionUID = 2L;
 
-	private String googleAnalyticsId;
-	private String siteEmail;
-	private String siteDomain;
-	private String editExt;
-	private boolean enableRecaptcha;
-	private String recaptchaPrivateKey;
-	private String recaptchaPublicKey;
-	private String commentsEmail;
-	private String commentsTemplate;
-	private String version;
-	private String siteUserLoginUrl;
-	private boolean enablePicasa;
-	private String picasaUser;
-	private String picasaPassword;
-	private boolean enableCkeditor;
-	private String attributesJSON;
-	private String defaultTimezone;
-	private String defaultLanguage;
-	private String site404Url;
-	private String sessionKey;
+	public String googleAnalyticsId;
+	public String siteEmail;
+	public String siteDomain;
+	public String editExt;
+	public boolean enableRecaptcha;
+	public String recaptchaPrivateKey;
+	public String recaptchaPublicKey;
+	public String commentsEmail;
+	public String commentsTemplate;
+	public String version;
+	public String siteUserLoginUrl;
+	public boolean enablePicasa;
+	public String picasaUser;
+	public String picasaPassword;
+	public boolean enableCkeditor;
+	public String attributesJSON;
+	public String defaultTimezone;
+	public String defaultLanguage;
+	public String site404Url;
+	public String sessionKey;
 
 	public ConfigEntity() {
 		commentsTemplate = "";
 		enableCkeditor = true;
 		defaultLanguage = "en";
-	}
-
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		googleAnalyticsId = getStringProperty(entity, "googleAnalyticsId");
-		siteEmail = getStringProperty(entity, "siteEmail");
-		siteDomain = getStringProperty(entity, "siteDomain");
-		editExt = getStringProperty(entity, "editExt");
-		enableRecaptcha = getBooleanProperty(entity, "enableRecaptcha", false);
-		recaptchaPrivateKey = getStringProperty(entity, "recaptchaPrivateKey");
-		recaptchaPublicKey = getStringProperty(entity, "recaptchaPublicKey");
-		commentsEmail = getStringProperty(entity, "commentsEmail");
-		commentsTemplate = getTextProperty(entity, "commentsTemplate");
-		version = getStringProperty(entity, "version");
-		siteUserLoginUrl = getStringProperty(entity, "siteUserLoginUrl");
-		enablePicasa = getBooleanProperty(entity, "enablePicasa", false);
-		picasaUser = getStringProperty(entity, "picasaUser");
-		picasaPassword = getStringProperty(entity, "picasaPassword");
-		enableCkeditor = getBooleanProperty(entity, "enableCkeditor", true);
-		attributesJSON = getStringProperty(entity, "attributesJSON");
-		defaultTimezone = getStringProperty(entity, "defaultTimezone");
-		defaultLanguage = getStringProperty(entity, "defaultLanguage", "en");
-		site404Url = getStringProperty(entity, "site404Url");
-		sessionKey = getStringProperty(entity, "sessionKey");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "googleAnalyticsId", googleAnalyticsId, false);
-		setProperty(entity, "siteEmail", siteEmail, false);
-		setProperty(entity, "siteDomain", siteDomain, false);
-		setProperty(entity, "editExt", editExt, false);
-		setProperty(entity, "enableRecaptcha", enableRecaptcha, false);
-		setProperty(entity, "recaptchaPrivateKey", recaptchaPrivateKey, false);
-		setProperty(entity, "recaptchaPublicKey", recaptchaPublicKey, false);
-		setProperty(entity, "commentsEmail", commentsEmail, false);
-		setTextProperty(entity, "commentsTemplate", commentsTemplate);
-		setProperty(entity, "version", version, false);
-		setProperty(entity, "siteUserLoginUrl", siteUserLoginUrl, false);
-		setProperty(entity, "enablePicasa", enablePicasa, false);
-		setProperty(entity, "picasaUser", picasaUser, false);
-		setProperty(entity, "picasaPassword", picasaPassword, false);
-		setProperty(entity, "enableCkeditor", enableCkeditor, false);
-		setProperty(entity, "attributesJSON", attributesJSON, false);
-		setProperty(entity, "defaultTimezone", defaultTimezone, false);
-		setProperty(entity, "defaultLanguage", defaultLanguage, false);
-		setProperty(entity, "site404Url", site404Url, false);
-		setProperty(entity, "sessionKey", sessionKey, false);
 	}
 
 	public String getGoogleAnalyticsId() {
@@ -243,10 +190,11 @@ public class ConfigEntity extends BaseEntityImpl {
     	attributesJSON = value;
     }
 
-    private Map<String, String> attributes;
+    private transient Map<String, String> attributes;
 	
     public Map<String, String> getAttributes() {
-    	if (attributes == null) {
+    	if (attributes == null) 
+    	{
     		attributes = new HashMap<String, String>();
     		parseAttributes();
     	}
@@ -265,7 +213,7 @@ public class ConfigEntity extends BaseEntityImpl {
 				getAttributes().put(attrName, obj.getString(attrName));
 			}
 		} catch (org.json.JSONException e) {
-			logger.error("Config atributes parsing problem: " + attributes);
+			logger.error("Config atributes parsing problem: " /*+ attributes*/);
 		}
     }
 

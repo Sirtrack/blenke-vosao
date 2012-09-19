@@ -22,9 +22,9 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.*;
 
-import com.google.appengine.api.datastore.Entity;
+
+
 
 /**
  * SEO Urls plugin link data.
@@ -32,28 +32,14 @@ import com.google.appengine.api.datastore.Entity;
  */
 public class SeoUrlEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 2L;
+	public static final long serialVersionUID = 2L;
 
-	private String fromLink;
-	private String toLink;
+	public String fromLink;
+	public String toLink;
 
 	public SeoUrlEntity() {
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		fromLink = getStringProperty(entity, "fromLink");
-		toLink = getStringProperty(entity, "toLink");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "fromLink", fromLink, true);
-		setProperty(entity, "toLink", toLink, false);
-	}
-
 	public SeoUrlEntity(String aFrom, String aTo) {
 		this();
 		fromLink = aFrom;

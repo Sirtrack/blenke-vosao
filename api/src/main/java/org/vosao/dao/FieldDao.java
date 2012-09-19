@@ -27,6 +27,7 @@ import java.util.List;
 import org.vosao.entity.FieldEntity;
 import org.vosao.entity.FormEntity;
 
+
 public interface FieldDao extends BaseDao<FieldEntity> {
 
 	List<FieldEntity> getByForm(final FormEntity form);

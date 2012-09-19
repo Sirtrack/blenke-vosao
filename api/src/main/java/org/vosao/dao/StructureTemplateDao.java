@@ -24,7 +24,9 @@ package org.vosao.dao;
 
 import java.util.List;
 
+import org.vosao.dao.BaseDao;
 import org.vosao.entity.StructureTemplateEntity;
+
 
 /**
  * @author Alexander Oleynik

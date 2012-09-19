@@ -22,43 +22,29 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.getListProperty;
-import static org.vosao.utils.EntityUtil.getStringProperty;
-import static org.vosao.utils.EntityUtil.setProperty;
+
+
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Entity;
+
 
 /**
  * @author Alexander Oleynik
  */
 public class PageTagEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 
-	private String pageURL;
-	private List<Long> tags;
+	public String pageURL;
+	public transient List<Long> tags;
 	
 	public PageTagEntity() {
 		tags = new ArrayList<Long>();
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		pageURL = getStringProperty(entity, "pageURL");
-		tags = getListProperty(entity, "tags");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "pageURL", pageURL, true);
-		setProperty(entity, "tags", tags);
-	}
-
 	public PageTagEntity(String aPageURL) {
 		this();
 		pageURL = aPageURL;

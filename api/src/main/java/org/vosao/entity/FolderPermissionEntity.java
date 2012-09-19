@@ -23,20 +23,20 @@
 package org.vosao.entity;
 
 import org.vosao.enums.FolderPermissionType;
-import static org.vosao.utils.EntityUtil.*;
 
-import com.google.appengine.api.datastore.Entity;
+
+
 
 /**
  * @author Alexander Oleynik
  */
 public class FolderPermissionEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 3L;
+	public static final long serialVersionUID = 3L;
 
-	private Long folderId;
-	private FolderPermissionType permission;
-    private Long groupId;
+	public Long folderId;
+	public FolderPermissionType permission;
+    public Long groupId;
 	
 	public FolderPermissionEntity() {
 	}
@@ -55,23 +55,6 @@ public class FolderPermissionEntity extends BaseEntityImpl {
 			Long aGroupId) {
 		this(aFolderId, perm);
 		groupId = aGroupId;
-	}
-
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		folderId = getLongProperty(entity, "folderId");
-		permission = FolderPermissionType.valueOf(getStringProperty(entity, 
-				"permission"));
-		groupId = getLongProperty(entity, "groupId");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "folderId", folderId, true);
-		setProperty(entity, "permission", permission.name(), false);
-		setProperty(entity, "groupId", groupId, true);
 	}
 
 	public Long getFolderId() {

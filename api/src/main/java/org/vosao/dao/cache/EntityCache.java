@@ -31,7 +31,7 @@ public interface EntityCache {
 
 	void putEntity(Class clazz, Object id, Object entity);
 	
-	void putEntities(Class clazz, List<BaseEntity> list);
+	void putEntities(Class clazz, List<? extends BaseEntity> list);
 
 	Object getEntity(Class clazz, Object id);
 	

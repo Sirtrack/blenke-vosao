@@ -22,36 +22,20 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.*;
+
 
 import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Entity;
+
 
 public class PluginResourceEntity extends BaseEntityImpl {
 	
-	private static final long serialVersionUID = 2L;
+	public static final long serialVersionUID = 2L;
 
-	private String pluginName;
-	private byte[] data;
-	private String url;
+	public String pluginName;
+	public byte[] data;
+	public String url;
 	
     public PluginResourceEntity() {
-    }
-
-    @Override
-    public void load(Entity entity) {
-    	super.load(entity);
-    	data = getBlobProperty(entity, "data");
-    	url = getStringProperty(entity, "url");
-    	pluginName = getStringProperty(entity, "pluginName");
-    }
-    
-    @Override
-    public void save(Entity entity) {
-    	super.save(entity);
-    	setProperty(entity, "data", data);
-    	setProperty(entity, "url", url, true);
-    	setProperty(entity, "pluginName", pluginName, true);
     }
 
     public PluginResourceEntity(String plugin, String anUrl, byte[] content) {

@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.vosao.entity.CommentEntity;
 
+
 /**
  * @author Alexander Oleynik
  */

@@ -22,39 +22,25 @@
 
 package org.vosao.entity;
 
-import com.google.appengine.api.datastore.Entity;
+
 import com.google.appengine.api.datastore.Text;
-import static org.vosao.utils.EntityUtil.*;
+
 
 public class FormConfigEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 2L;
+	public static final long serialVersionUID = 2L;
 
 	public static final String FORM_TEMPLATE = "formTemplate";
 	public static final String LETTER_TEMPLATE = "letterTemplate";
 
-	private String formTemplate;
-	private String letterTemplate;
+	public String formTemplate;
+	public String letterTemplate;
 
 	public FormConfigEntity() {
 		setFormTemplate("");
 		setLetterTemplate("");
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		formTemplate = getTextProperty(entity, "formTemplate");
-		letterTemplate = getTextProperty(entity, "letterTemplate");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setTextProperty(entity, "formTemplate", formTemplate);
-		setTextProperty(entity, "letterTemplate", letterTemplate);
-	}
-
 	public String getFormTemplate() {
 		return formTemplate;
 	}

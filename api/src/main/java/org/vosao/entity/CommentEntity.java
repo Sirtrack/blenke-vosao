@@ -22,16 +22,16 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.getBooleanProperty;
-import static org.vosao.utils.EntityUtil.getDateProperty;
-import static org.vosao.utils.EntityUtil.getStringProperty;
-import static org.vosao.utils.EntityUtil.getTextProperty;
-import static org.vosao.utils.EntityUtil.setProperty;
-import static org.vosao.utils.EntityUtil.setTextProperty;
+
+
+
+
+
+
 
 import java.util.Date;
 
-import com.google.appengine.api.datastore.Entity;
+
 
 /**
  * @author Alexander Oleynik
@@ -40,36 +40,16 @@ public class CommentEntity extends BaseEntityImpl {
 
 	private static final long serialVersionUID = 8L;
 
-	private String pageUrl;
-	private String name;
-	private String content;
-	private Date publishDate;
-	private boolean disabled;
+	public String pageUrl;
+	public String name;
+	public String content;
+	public Date publishDate;
+	public boolean disabled;
 
 	public CommentEntity() {
 		publishDate = new Date();
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		pageUrl = getStringProperty(entity, "pageUrl");
-		name = getStringProperty(entity, "name");
-		content = getTextProperty(entity, "content");
-		publishDate = getDateProperty(entity, "publishDate");
-		disabled = getBooleanProperty(entity, "disabled", false);
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "pageUrl", pageUrl, true);
-		setProperty(entity, "name", name, false);
-		setTextProperty(entity, "content", content);
-		setProperty(entity, "publishDate", publishDate, true);
-		setProperty(entity, "disabled", disabled, true);
-	}
-
 	public CommentEntity(final String aName, final String aContent, 
 			final Date aPublishDate, final String aPageUrl) {
 		setName(aName);

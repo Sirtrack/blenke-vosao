@@ -22,10 +22,10 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.getStringProperty;
-import static org.vosao.utils.EntityUtil.setProperty;
 
-import com.google.appengine.api.datastore.Entity;
+
+
+
 
 /**
  * 
@@ -34,28 +34,14 @@ import com.google.appengine.api.datastore.Entity;
  */
 public class PageDependencyEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 
-	private String dependency;
-	private String page;
+	public String dependency;
+	public String page;
 
 	public PageDependencyEntity() {
 		dependency = "";
 		page = "";
-	}
-
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		dependency = getStringProperty(entity, "dependency");
-		page = getStringProperty(entity, "page");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "dependency", dependency, true);
-		setProperty(entity, "page", page, true);
 	}
 
 	public PageDependencyEntity(String dependency, String pageUrl) {

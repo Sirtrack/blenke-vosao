@@ -25,24 +25,24 @@ package org.vosao.entity;
 import java.util.TimeZone;
 
 import org.vosao.enums.UserRole;
-import static org.vosao.utils.EntityUtil.*;
 
-import com.google.appengine.api.datastore.Entity;
+
+
 
 /**
  * @author Alexander Oleynik
  */
 public class UserEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 4L;
+	public static final long serialVersionUID = 4L;
 
-	private String name;
-	private String password;
-	private String email;
-	private UserRole role;
-	private String forgotPasswordKey;
-	private boolean disabled;
-	private String timezone;
+	public String name;
+	public String password;
+	public String email;
+	public UserRole role;
+	public String forgotPasswordKey;
+	public boolean disabled;
+	public String timezone;
 	
 	public UserEntity() {
 		role = UserRole.USER;
@@ -50,30 +50,6 @@ public class UserEntity extends BaseEntityImpl {
 		timezone = TimeZone.getDefault().getID();
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		name = getStringProperty(entity, "name");
-		password = getStringProperty(entity, "password");
-		email = getStringProperty(entity, "email");
-		role = UserRole.valueOf(getStringProperty(entity, "role"));
-		forgotPasswordKey = getStringProperty(entity, "forgotPasswordKey");
-		disabled = getBooleanProperty(entity, "disabled", false);
-		timezone = getStringProperty(entity, "timezone");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "name", name, false);
-		setProperty(entity, "password", password, false);
-		setProperty(entity, "email", email, true);
-		setProperty(entity, "role", role.name(), true);
-		setProperty(entity, "forgotPasswordKey", forgotPasswordKey, true);
-		setProperty(entity, "disabled", disabled, false);
-		setProperty(entity, "timezone", timezone, false);
-	}
-
 	public UserEntity(String aName, String aPassword,
 			String anEmail, UserRole aRole) {
 		this();

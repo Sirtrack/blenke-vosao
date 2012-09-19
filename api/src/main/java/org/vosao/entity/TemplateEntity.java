@@ -22,39 +22,23 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.*;
 
-import com.google.appengine.api.datastore.Entity;
+
+
 import com.google.appengine.api.datastore.Text;
 
 public class TemplateEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 2L;
+	public static final long serialVersionUID = 2L;
 
-	private String title;
-	private String url;
-	private String content;
+	public String title;
+	public String url;
+	public String content;
 	
 	public TemplateEntity() {
 		content = "";
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		title = getStringProperty(entity, "title");
-		url = getStringProperty(entity, "url");
-		content = getTextProperty(entity, "content");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "title", title, false);
-		setProperty(entity, "url", url, true);
-		setTextProperty(entity, "content", content);
-	}
-
 	public TemplateEntity(String title, String content, String url) {
 		this(title, content);
 		this.url = url;

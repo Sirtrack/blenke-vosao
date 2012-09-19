@@ -22,7 +22,7 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.*;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +33,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-import com.google.appengine.api.datastore.Entity;
+
 
 /**
  * 
@@ -42,14 +42,14 @@ import com.google.appengine.api.datastore.Entity;
  */
 public class FormDataEntity extends BaseEntityImpl {
 	
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 
-	private String uuid;
-	private Long formId;
-	private String ipAddress;
+	public String uuid;
+	public Long formId;
+	public String ipAddress;
 
 	// for data stored as XML
-	private String data;
+	public String data;
 	
     public FormDataEntity() {
     }
@@ -60,23 +60,7 @@ public class FormDataEntity extends BaseEntityImpl {
 		this.data = data;
 	}
 
-    @Override
-    public void load(Entity entity) {
-    	super.load(entity);
-    	formId = getLongProperty(entity, "formId");
-    	data = getTextProperty(entity, "data");
-    	ipAddress = getStringProperty(entity, "ipAddress");
-    }
-    
-    @Override
-    public void save(Entity entity) {
-    	super.save(entity);
-    	setProperty(entity, "formId", formId, true);
-    	setTextProperty(entity, "data", data);
-    	setProperty(entity, "ipAddress", ipAddress, false);
-    }
-
-	public Long getFormId() {
+    public Long getFormId() {
 		return formId;
 	}
 

@@ -22,36 +22,20 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.*;
-import com.google.appengine.api.datastore.Entity;
+
+
 
 public class FolderEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 4L;
+	public static final long serialVersionUID = 4L;
 
-	private String title;
-	private String name;
-	private Long parentId;
+	public String title;
+	public String name;
+	public Long parentId;
 	
 	public FolderEntity() {
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		title = getStringProperty(entity, "title");
-		name = getStringProperty(entity, "name");
-		parentId = getLongProperty(entity, "parentId");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "title", title, false);
-		setProperty(entity, "name", name, true);
-		setProperty(entity, "parentId", parentId, true);
-	}
-
 	public FolderEntity(String aName) {
 		this();
 		name = aName;

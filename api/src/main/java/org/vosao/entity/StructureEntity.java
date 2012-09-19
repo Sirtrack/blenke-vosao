@@ -32,36 +32,22 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.vosao.business.vo.StructureFieldVO;
-import static org.vosao.utils.EntityUtil.*;
 
-import com.google.appengine.api.datastore.Entity;
+
+
 import com.google.appengine.api.datastore.Text;
 
 public class StructureEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 2L;
+	public static final long serialVersionUID = 2L;
 
-	private String title;
-	private String content;
+	public String title;
+	public String content;
 	
 	public StructureEntity() {
 		content = "";
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		title = getStringProperty(entity, "title");
-		content = getTextProperty(entity, "content");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "title", title, true);
-		setTextProperty(entity, "content", content);
-	}
-
 	public StructureEntity(String title, String content) {
 		this();
 		this.title = title;

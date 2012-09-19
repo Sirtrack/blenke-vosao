@@ -25,49 +25,27 @@ package org.vosao.entity;
 import java.util.Date;
 
 import org.vosao.utils.FolderUtil;
-import static org.vosao.utils.EntityUtil.*;
 
-import com.google.appengine.api.datastore.Entity;
+
+
 
 public class FileEntity extends BaseEntityImpl {
 
-	private static final long serialVersionUID = 5L;
+	public static final long serialVersionUID = 5L;
 
-	private static final String[] IMAGE_EXTENSIONS = {"jpg","jpeg","png","ico",
+	public static final String[] IMAGE_EXTENSIONS = {"jpg","jpeg","png","ico",
 	"gif"};
 
-	private String title;
-	private String filename;	
-	private Long folderId;	
-	private String mimeType;
-	private Date lastModifiedTime;
-	private Integer size;
+	public String title;
+	public String filename;	
+	public Long folderId;	
+	public String mimeType;
+	public Date lastModifiedTime;
+	public Integer size;
 
 	public FileEntity() {
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		title = getStringProperty(entity, "title");
-		filename = getStringProperty(entity, "filename");
-		folderId = getLongProperty(entity, "folderId");
-		mimeType = getStringProperty(entity, "mimeType");
-		lastModifiedTime = getDateProperty(entity, "lastModifiedTime");
-		size = getIntegerProperty(entity, "size", 0);
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "title", title, false);
-		setProperty(entity, "filename", filename, true);
-		setProperty(entity, "folderId", folderId, true);
-		setProperty(entity, "mimeType", mimeType, false);
-		setProperty(entity, "lastModifiedTime", lastModifiedTime, false);
-		setProperty(entity, "size", size, false);
-	}
-
 	public FileEntity(String aTitle, String aName, Long aFolderId,
 			String aMimeType, Date aMdttime, int aSize) {
 		this();

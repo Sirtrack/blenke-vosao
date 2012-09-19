@@ -22,14 +22,6 @@
 
 package org.vosao.entity;
 
-import static org.vosao.utils.EntityUtil.getLongProperty;
-import static org.vosao.utils.EntityUtil.getStringProperty;
-import static org.vosao.utils.EntityUtil.getTextProperty;
-import static org.vosao.utils.EntityUtil.setProperty;
-import static org.vosao.utils.EntityUtil.setTextProperty;
-
-import com.google.appengine.api.datastore.Entity;
-
 /**
  * @author Alexander Oleynik
  */
@@ -37,33 +29,15 @@ public class ContentEntity extends BaseEntityImpl {
 
 	private static final long serialVersionUID = 8L;
 
-	private String parentClass;
-	private Long parentKey;
-	private String languageCode;
-	private String content;
+	public String parentClass;
+	public Long parentKey;
+	public String languageCode;
+	public String content;
 	
 	public ContentEntity() {
 		content = "";
 	}
 	
-	@Override
-	public void load(Entity entity) {
-		super.load(entity);
-		parentClass = getStringProperty(entity, "parentClass");
-		parentKey = getLongProperty(entity, "parentKey");
-		languageCode = getStringProperty(entity, "languageCode");
-		content = getTextProperty(entity, "content");
-	}
-	
-	@Override
-	public void save(Entity entity) {
-		super.save(entity);
-		setProperty(entity, "parentClass", parentClass, true);
-		setProperty(entity, "parentKey", parentKey, true);
-		setProperty(entity, "languageCode", languageCode, true);
-		setTextProperty(entity, "content", content);
-	}
-
 	public ContentEntity(String parentClass, Long parentKey, 
 			String languageCode, String content) {
 		this();

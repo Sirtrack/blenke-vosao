@@ -31,7 +31,7 @@ import org.vosao.dao.StructureTemplateDao;
 import org.vosao.entity.StructureEntity;
 import org.vosao.entity.helper.StructureTemplateHelper;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 
 /**
@@ -51,7 +51,7 @@ public class StructureDaoImpl extends BaseDaoImpl<StructureEntity>
 	
 	@Override
 	public StructureEntity getByTitle(String title) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("title", title);
 		return selectOne(q, "getByTitle", params(title));
 	}

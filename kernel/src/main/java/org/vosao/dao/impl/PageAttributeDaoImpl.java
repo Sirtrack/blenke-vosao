@@ -30,7 +30,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.PageAttributeDao;
 import org.vosao.entity.PageAttributeEntity;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 /**
  * @author Alexander Oleynik
@@ -54,7 +54,7 @@ public class PageAttributeDaoImpl extends BaseDaoImpl<PageAttributeEntity>
 
 	private List<PageAttributeEntity> getByPage(final String pageUrl, 
 			Boolean inherited) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("pageUrl", pageUrl);
 		if (inherited != null) {
 			q.filter("inherited", inherited);
@@ -64,14 +64,14 @@ public class PageAttributeDaoImpl extends BaseDaoImpl<PageAttributeEntity>
 
 	@Override
 	public void removeByPage(String url) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("pageUrl", url);
 		removeSelected(q);
 	}
 
 	@Override
 	public PageAttributeEntity getByPageName(String pageUrl, String name) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("pageUrl", pageUrl);
 		q.filter("name", name);
 		return selectOne(q, "getByPageName", params(pageUrl, name));

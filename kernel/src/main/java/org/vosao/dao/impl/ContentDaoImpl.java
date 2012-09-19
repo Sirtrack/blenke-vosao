@@ -28,7 +28,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.ContentDao;
 import org.vosao.entity.ContentEntity;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 
 public class ContentDaoImpl extends BaseDaoImpl<ContentEntity> 
@@ -41,7 +41,7 @@ public class ContentDaoImpl extends BaseDaoImpl<ContentEntity>
 	@Override
 	public List<ContentEntity> select(final String parentClass, 
 			final Long parentKey) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("parentClass", parentClass);
 		q.filter("parentKey", parentKey);
 		return select(q, "select", params(parentClass, parentKey));
@@ -50,7 +50,7 @@ public class ContentDaoImpl extends BaseDaoImpl<ContentEntity>
 	@Override
 	public ContentEntity getByLanguage(final String parentClass, 
 			final Long parentKey, final String language) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("parentClass", parentClass);
 		q.filter("parentKey", parentKey);
 		q.filter("languageCode", language);
@@ -60,7 +60,7 @@ public class ContentDaoImpl extends BaseDaoImpl<ContentEntity>
 
 	@Override
 	public void removeById(String className, Long id) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("parentClass", className);
 		q.filter("parentKey", id);
 		removeSelected(q);

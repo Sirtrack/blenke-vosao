@@ -31,7 +31,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.UserGroupDao;
 import org.vosao.entity.UserGroupEntity;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 /**
  * @author Alexander Oleynik
@@ -45,21 +45,21 @@ public class UserGroupDaoImpl extends BaseDaoImpl<UserGroupEntity>
 
 	@Override
 	public List<UserGroupEntity> selectByUser(Long userId) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("userId", userId);
 		return select(q, "selectByUser", params(userId));
 	}
 
 	@Override
 	public List<UserGroupEntity> selectByGroup(Long groupId) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("groupId", groupId);
 		return select(q, "selectByGroup", params(groupId));
 	}
 
 	@Override
 	public UserGroupEntity getByUserGroup(Long groupId, Long userId) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("userId", userId);
 		q.filter("groupId", groupId);
 		return selectOne(q, "getByUserGroup", params(groupId, userId));

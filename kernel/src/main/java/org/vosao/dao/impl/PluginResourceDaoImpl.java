@@ -26,7 +26,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.PluginResourceDao;
 import org.vosao.entity.PluginResourceEntity;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 
 public class PluginResourceDaoImpl extends 
@@ -38,7 +38,7 @@ public class PluginResourceDaoImpl extends
 
 	@Override
 	public PluginResourceEntity getByUrl(String plugin, String url) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("url", url);
 		q.filter("pluginName", plugin);
 		return selectOne(q, "getByUrl", params(url, plugin));

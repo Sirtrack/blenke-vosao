@@ -26,7 +26,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.SeoUrlDao;
 import org.vosao.entity.SeoUrlEntity;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 
 public class SeoUrlDaoImpl extends BaseDaoImpl<SeoUrlEntity> 
@@ -37,7 +37,7 @@ public class SeoUrlDaoImpl extends BaseDaoImpl<SeoUrlEntity>
 	}
 
 	public SeoUrlEntity getByFrom(final String from) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("fromLink", from);
 		return selectOne(q, "getByFrom", params(from));
 	}

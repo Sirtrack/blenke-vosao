@@ -32,7 +32,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.FolderDao;
 import org.vosao.entity.FolderEntity;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 public class FolderDaoImpl extends BaseDaoImpl<FolderEntity> 
 		implements FolderDao {
@@ -42,14 +42,14 @@ public class FolderDaoImpl extends BaseDaoImpl<FolderEntity>
 	}
 
 	public List<FolderEntity> getByParent(final Long id) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("parentId", id);
 		return select(q, "getByParent", params(id));
 	}
 	
 	public FolderEntity getByParentName(final Long parentId, 
 			final String name) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("parentId", parentId);
 		q.filter("name", name);
 		return selectOne(q, "getByParentName", params(parentId, name));

@@ -28,7 +28,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.GroupDao;
 import org.vosao.entity.GroupEntity;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 /**
  * @author Alexander Oleynik
@@ -42,7 +42,7 @@ public class GroupDaoImpl extends BaseDaoImpl<GroupEntity>
 
 	@Override
 	public GroupEntity getByName(String name) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("name", name);
 		return selectOne(q, "getByName", params(name));
 	}

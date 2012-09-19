@@ -39,7 +39,7 @@ import org.vosao.entity.ContentEntity;
 import org.vosao.entity.PageEntity;
 import org.vosao.entity.helper.PageHelper;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 
 /**
@@ -80,14 +80,14 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 	}
 
 	public List<PageEntity> selectAllChildren(final String parentUrl) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("parentUrl", parentUrl);
 		return select(q, "selectAllChildren", params(parentUrl));
 	}
 	
 	public List<PageEntity> selectAllChildren(final String parentUrl,
 			Date startDate, Date endDate) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("parentUrl", parentUrl);
 		q.filter("publishDate>=", 
 				startDate);
@@ -186,7 +186,7 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 	
 	@Override
 	public List<PageEntity> selectByUrl(final String url) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("friendlyURL", url);
 		List<PageEntity> result = select(q, "selectByUrl", params(url));
 		Collections.sort(result, PageHelper.VERSION_ASC);
@@ -195,7 +195,7 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 	
 	@Override
 	public PageEntity getByUrlVersion(final String url, final Integer version) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("friendlyURL", url);
 		q.filter("version", version);
 		return selectOne(q, "getByUrlVersion", params(url, version));
@@ -219,14 +219,14 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 
 	@Override
 	public List<PageEntity> selectByTemplate(Long templateId) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("template", templateId);
 		return select(q, "selectByTemplate", params(templateId));
 	}
 
 	@Override
 	public List<PageEntity> selectByStructure(Long structureId) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("structureId", structureId);
 		return select(q, "selectByStructure", params(structureId));
 	}
@@ -234,7 +234,7 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 	@Override
 	public List<PageEntity> selectByStructureTemplate(
 			Long structureTemplateId) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("structureTemplateId", 
 				structureTemplateId);
 		return select(q, "selectByStructureTemplate", 
@@ -249,7 +249,7 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 	public List<PageEntity> getCurrentHourPublishedPages() {
 		Date endDate = new Date();
 		Date startDate = DateUtils.addHours(endDate, -1);
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("publishDate>=", 
 				startDate);
 		q.filter("publishDate<=", 
@@ -262,7 +262,7 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 	public List<PageEntity> getCurrentHourUnpublishedPages() {
 		Date endDate = new Date();
 		Date startDate = DateUtils.addHours(endDate, -1);
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("endPublishDate>=", 
 				startDate);
 		q.filter("endPublishDate<=", 

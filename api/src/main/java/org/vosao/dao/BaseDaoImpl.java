@@ -32,10 +32,9 @@ import org.apache.commons.logging.LogFactory;
 import org.vosao.common.VosaoContext;
 import org.vosao.entity.BaseEntityImpl;
 
-
-
 import siena.Model;
-import siena.Query;
+import siena.core.async.QueryAsync;
+import siena.core.async.SienaFuture;
 
 public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl implements BaseDao<T>{
 	
@@ -138,19 +137,22 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
 
 	@Override
 	public void removeAll() {
-		removeSelected(Model.all(clazz));
+		removeSelected(Model.all(clazz).async());
 	}
 
-	protected void removeSelected(Query<T> query) {
+	protected void removeSelected(QueryAsync<T> query) {
 		getQueryCache().removeQueries(clazz);
 		getDao().getDaoStat().incQueryCalls();
 		int count = 0;
 		
-    Query<T> q = query.paginate(CHUNK_SIZE).stateful();
-    List<T> ts = q.fetchKeys();
+		QueryAsync<T> q = query.paginate(CHUNK_SIZE).stateful();
+		
+		SienaFuture<List<T>> future = q.fetchKeys();
+		List<T> ts = future.get();
     while( ts.size() > 0 ){
+      future = q.nextPage().fetchKeys();
       Model.batch(clazz).delete(ts);
-      ts = q.nextPage().fetchKeys();
+      ts = future.get();
     }
 	}
 	
@@ -195,7 +197,7 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
     List<T> result = (List<T>) getQueryCache().getQuery(clazz, 
         clazz.getName(), null);
     if (result == null) {
-      Query q = newQuery();
+      QueryAsync<T> q = newQuery();
       result = selectNotCache(q);
       getQueryCache().putQuery(clazz, clazz.getName(), null, 
           (List<T>)result);
@@ -203,11 +205,11 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
     return result;
   }
 
-  protected List<T> select(Query query, String queryId, Object[] params) {
+  protected List<T> select(QueryAsync query, String queryId, Object[] params) {
     return select(query, queryId, QUERY_LIMIT, params);
   }
 
-  protected T selectOne(Query query, String queryId, int queryLimit, 
+  protected T selectOne(QueryAsync query, String queryId, int queryLimit, 
       Object[] params) {
     List<T> result = (List<T>) getQueryCache().getQuery(clazz, queryId, 
         params);
@@ -226,7 +228,7 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
     return result.get(0);
   }
 
-  protected List<T> select(Query query, String queryId, int queryLimit, 
+  protected List<T> select(QueryAsync<T> query, String queryId, int queryLimit, 
       Object[] params) {
     List<T> result = (List<T>) getQueryCache().getQuery(clazz, queryId, 
         params);
@@ -239,13 +241,17 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
     return result;
   }
 
-  protected T selectOneNotCache(Query query) {
+  protected T selectOneNotCache(QueryAsync<T> query) {
     getDao().getDaoStat().incQueryCalls();
-
-    return (T)query.get();
+    List<T> m = query.fetchKeys(1).get();
+    Model.batch(clazz).get(m);
+    if( m.size()>0 )
+      return m.get(0);
+    else 
+      return null;
   }
 
-  protected List<T> selectNotCache(Query query) {
+  protected List<T> selectNotCache(QueryAsync<T> query) {
     getDao().getDaoStat().incQueryCalls();
 
 //    List<Entity> entities = new ArrayList<Entity>();
@@ -255,11 +261,13 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
 //      entities.add(entity);
 //    }
 //    return createModels(entities);
-    return query.fetch();
+    List<T> m = query.fetchKeys().get();
+    Model.batch(clazz).get(m);
+    return m;
   }
   
   
-	protected T selectOne(Query query, String queryId, Object[] params) {
+	protected T selectOne(QueryAsync<T> query, String queryId, Object[] params) {
 		return selectOne(query, queryId, QUERY_LIMIT, params);
 	}
 		
@@ -287,8 +295,8 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
 		return Model.all(clazz).count();
 	}
 
-	public Query<T> newQuery(){
-	  return Model.all(clazz);
+	public QueryAsync<T> newQuery(){
+	  return Model.all(clazz).async();
 	}
 
 }

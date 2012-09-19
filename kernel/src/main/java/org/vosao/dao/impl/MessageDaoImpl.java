@@ -28,7 +28,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.MessageDao;
 import org.vosao.entity.MessageEntity;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 
 public class MessageDaoImpl extends BaseDaoImpl<MessageEntity> 
@@ -40,7 +40,7 @@ public class MessageDaoImpl extends BaseDaoImpl<MessageEntity>
 
 	@Override
 	public List<MessageEntity> selectByCode(final String code) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("code", code);
 		return select(q, "selectByCode", params(code));
 	}
@@ -48,7 +48,7 @@ public class MessageDaoImpl extends BaseDaoImpl<MessageEntity>
 	@Override
 	public MessageEntity getByCode(final String code, 
 			final String languageCode) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("code", code);
 		q.filter("languageCode", languageCode);
 		return selectOne(q, "getByCode", params(code, languageCode));
@@ -56,7 +56,7 @@ public class MessageDaoImpl extends BaseDaoImpl<MessageEntity>
 
 	@Override
 	public List<MessageEntity> select(final String languageCode) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("languageCode", languageCode);
 		return select(q, "select", params(languageCode));
 	}

@@ -32,7 +32,7 @@ import org.vosao.dao.ContentPermissionDao;
 import org.vosao.entity.ContentPermissionEntity;
 
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 /**
  * @author Alexander Oleynik
@@ -47,7 +47,7 @@ public class ContentPermissionDaoImpl extends
 
 	@Override
 	public List<ContentPermissionEntity> selectByUrl(final String url) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("url", url);
 		return select(q, "selectByUrl", params(url));
 	}
@@ -55,14 +55,14 @@ public class ContentPermissionDaoImpl extends
 	@Override
 	public ContentPermissionEntity getByUrlGroup(final String url, 
 			final Long groupId) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("url", url);
 		q.filter("groupId", groupId);
 		return selectOne(q, "getByUrlGroup", params(url, groupId));
 	}
 
 	private List<ContentPermissionEntity> selectByGroup(final Long groupId) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("groupId", groupId);
 		return select(q, "selectByGroup", params(groupId));
 	}

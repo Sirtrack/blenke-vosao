@@ -28,7 +28,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.PluginDao;
 import org.vosao.entity.PluginEntity;
 
-import siena.Query;
+import siena.core.async.QueryAsync;
 
 
 public class PluginDaoImpl extends BaseDaoImpl<PluginEntity> 
@@ -40,14 +40,14 @@ public class PluginDaoImpl extends BaseDaoImpl<PluginEntity>
 
 	@Override
 	public PluginEntity getByName(final String name) {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("name", name);
 		return selectOne(q, "getByName", params(name));
 	}
 	
 	@Override
 	public List<PluginEntity> selectEnabled() {
-		Query q = newQuery();
+		QueryAsync q = newQuery();
 		q.filter("disabled", false);
 		return select(q, "selectEnabled", params(false));
 	}

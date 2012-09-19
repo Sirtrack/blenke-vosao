@@ -22,10 +22,12 @@
 
 package org.vosao.dao;
 
+
 import org.vosao.dao.tool.GroupTool;
 import org.vosao.dao.tool.UserTool;
 import org.vosao.entity.GroupEntity;
 import org.vosao.enums.UserRole;
+
 
 public class GroupDaoTest extends AbstractDaoTest {
 

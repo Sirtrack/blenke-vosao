@@ -26,6 +26,7 @@ import org.vosao.common.VosaoContext;
 import org.vosao.dao.AbstractDaoTest;
 import org.vosao.entity.ConfigEntity;
 
+
 public class PageAttributesFieldTest extends AbstractDaoTest {
 
 	@Override

@@ -22,7 +22,7 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.PageDependencyDao;
 import org.vosao.entity.PageDependencyEntity;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 /**
  * @author Alexander Oleynik
@@ -45,14 +45,14 @@ public class PageDependencyDaoImpl extends BaseDaoImpl<PageDependencyEntity>
 	@Override
 	public List<PageDependencyEntity> selectByPage(final String pageUrl) {
 		Query q = newQuery();
-		q.addFilter("page", EQUAL, pageUrl);
+		q.filter("page", pageUrl);
 		return select(q, "getByPage", params(pageUrl));
 	}
 	
 	@Override
 	public List<PageDependencyEntity> selectByDependency(final String pageUrl) {
 		Query q = newQuery();
-		q.addFilter("dependency", EQUAL, pageUrl);
+		q.filter("dependency", pageUrl);
 		return select(q, "getByDependency", params(pageUrl));
 	}
 
@@ -60,8 +60,8 @@ public class PageDependencyDaoImpl extends BaseDaoImpl<PageDependencyEntity>
 	public PageDependencyEntity getByPageAndDependency(String pageUrl,
 			String dependency) {
 		Query q = newQuery();
-		q.addFilter("page", EQUAL, pageUrl);
-		q.addFilter("dependency", EQUAL, dependency);
+		q.filter("page", pageUrl);
+		q.filter("dependency", dependency);
 		return selectOne(q, "getByPageAndDependency", params(pageUrl, dependency));
 	}
 	

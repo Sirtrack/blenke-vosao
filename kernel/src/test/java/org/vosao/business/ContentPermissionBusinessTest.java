@@ -22,6 +22,7 @@
 
 package org.vosao.business;
 
+
 import org.vosao.entity.ContentPermissionEntity;
 import org.vosao.entity.GroupEntity;
 import org.vosao.entity.PageEntity;
@@ -29,6 +30,7 @@ import org.vosao.entity.UserEntity;
 import org.vosao.entity.UserGroupEntity;
 import org.vosao.enums.ContentPermissionType;
 import org.vosao.enums.UserRole;
+
 
 /**
  * @author Alexander Oleynik

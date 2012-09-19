@@ -26,8 +26,8 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.PluginResourceDao;
 import org.vosao.entity.PluginResourceEntity;
 
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
+import siena.Query;
+
 
 public class PluginResourceDaoImpl extends 
 		BaseDaoImpl<PluginResourceEntity> implements PluginResourceDao {
@@ -39,8 +39,8 @@ public class PluginResourceDaoImpl extends
 	@Override
 	public PluginResourceEntity getByUrl(String plugin, String url) {
 		Query q = newQuery();
-		q.addFilter("url", FilterOperator.EQUAL, url);
-		q.addFilter("pluginName", FilterOperator.EQUAL, plugin);
+		q.filter("url", url);
+		q.filter("pluginName", plugin);
 		return selectOne(q, "getByUrl", params(url, plugin));
 	}
 

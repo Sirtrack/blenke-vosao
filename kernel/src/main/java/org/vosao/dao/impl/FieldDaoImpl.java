@@ -31,8 +31,8 @@ import org.vosao.entity.FieldEntity;
 import org.vosao.entity.FormEntity;
 import org.vosao.entity.helper.FieldHelper;
 
-import com.google.appengine.api.datastore.Query;
-import static com.google.appengine.api.datastore.Query.FilterOperator.*;
+import siena.Query;
+import static com.google.appengine.api.datastore.Query.*;
 
 public class FieldDaoImpl extends BaseDaoImpl<FieldEntity> 
 		implements FieldDao {
@@ -44,7 +44,7 @@ public class FieldDaoImpl extends BaseDaoImpl<FieldEntity>
 	@Override
 	public List<FieldEntity> getByForm(final FormEntity form) {
 		Query q = newQuery();
-		q.addFilter("formId", EQUAL, form.getId());
+		q.filter("formId", form.getId());
 		List<FieldEntity> result = select(q, "getByForm", params(form.getId()));
 		Collections.sort(result, new FieldHelper.IndexAsc());
 		return result;
@@ -53,8 +53,8 @@ public class FieldDaoImpl extends BaseDaoImpl<FieldEntity>
 	@Override
 	public FieldEntity getByName(final FormEntity form, final String name) {
 		Query q = newQuery();
-		q.addFilter("formId", EQUAL, form.getId());
-		q.addFilter("name", EQUAL, name);
+		q.filter("formId", form.getId());
+		q.filter("name", name);
 		return selectOne(q, "getByName", params(form.getId(), name));
 	}
 	

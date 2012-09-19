@@ -30,6 +30,8 @@ import org.vosao.dao.tool.PageTool;
 import org.vosao.entity.CommentEntity;
 import org.vosao.entity.PageEntity;
 
+
+
 public class CommentDaoTest extends AbstractDaoTest {
 
 	private PageTool pageTool;

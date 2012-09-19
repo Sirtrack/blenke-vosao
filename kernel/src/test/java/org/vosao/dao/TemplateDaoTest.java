@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.vosao.entity.TemplateEntity;
 
+
 public class TemplateDaoTest extends AbstractDaoTest {
 
 	private TemplateEntity addTemplate(final String title, final String content) {

@@ -22,7 +22,7 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +32,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.FolderDao;
 import org.vosao.entity.FolderEntity;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 public class FolderDaoImpl extends BaseDaoImpl<FolderEntity> 
 		implements FolderDao {
@@ -43,15 +43,15 @@ public class FolderDaoImpl extends BaseDaoImpl<FolderEntity>
 
 	public List<FolderEntity> getByParent(final Long id) {
 		Query q = newQuery();
-		q.addFilter("parentId", EQUAL, id);
+		q.filter("parentId", id);
 		return select(q, "getByParent", params(id));
 	}
 	
 	public FolderEntity getByParentName(final Long parentId, 
 			final String name) {
 		Query q = newQuery();
-		q.addFilter("parentId", EQUAL, parentId);
-		q.addFilter("name", EQUAL, name);
+		q.filter("parentId", parentId);
+		q.filter("name", name);
 		return selectOne(q, "getByParentName", params(parentId, name));
 	}
 

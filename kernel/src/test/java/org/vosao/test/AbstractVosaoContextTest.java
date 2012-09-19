@@ -22,17 +22,31 @@
 
 package org.vosao.test;
 
+import java.util.List;
+
 import org.vosao.business.impl.BusinessImpl;
 import org.vosao.business.impl.mq.MessageQueueImpl;
 import org.vosao.common.VosaoContext;
 
+import siena.PersistenceManager;
+import siena.gae.GaeCachingPersistenceManager;
 /**
  * 
  * @author Alexander Oleynik
  *
  */
 public abstract class AbstractVosaoContextTest extends LocalDatastoreTestCase {
-	
+
+  protected PersistenceManager pm;
+
+  public PersistenceManager createPersistenceManager(List<Class<?>> classes)
+      throws Exception {
+//    GaePersistenceManager pm = new GaePersistenceManager();
+    GaeCachingPersistenceManager pm = new GaeCachingPersistenceManager();
+    pm.init(null);
+    return pm;
+  }
+  
 	@Override
     public void setUp() throws Exception {
         super.setUp();

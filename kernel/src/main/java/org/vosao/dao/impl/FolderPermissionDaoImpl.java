@@ -22,7 +22,7 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.FolderPermissionDao;
 import org.vosao.entity.FolderPermissionEntity;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 /**
  * @author Alexander Oleynik
@@ -47,7 +47,7 @@ public class FolderPermissionDaoImpl
 	@Override
 	public List<FolderPermissionEntity> selectByFolder(final Long folderId) {
 		Query q = newQuery();
-		q.addFilter("folderId", EQUAL, folderId);
+		q.filter("folderId", folderId);
 		return select(q, "selectByFolder", params(folderId));
 	}
 
@@ -55,14 +55,14 @@ public class FolderPermissionDaoImpl
 	public FolderPermissionEntity getByFolderGroup(final Long folderId, 
 			final Long groupId) {
 		Query q = newQuery();
-		q.addFilter("folderId", EQUAL, folderId);
-		q.addFilter("groupId", EQUAL, groupId);
+		q.filter("folderId", folderId);
+		q.filter("groupId", groupId);
 		return selectOne(q, "getByFolderGroup", params(folderId, groupId));
 	}
 
 	private List<FolderPermissionEntity> selectByGroup(final Long groupId) {
 		Query q = newQuery();
-		q.addFilter("groupId", EQUAL, groupId);
+		q.filter("groupId", groupId);
 		return select(q, "selectByGroup", params(groupId));
 	}
 

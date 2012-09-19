@@ -22,13 +22,13 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.FormDao;
 import org.vosao.entity.FormEntity;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 public class FormDaoImpl extends BaseDaoImpl<FormEntity> 
 		implements FormDao {
@@ -40,7 +40,7 @@ public class FormDaoImpl extends BaseDaoImpl<FormEntity>
 	@Override
 	public FormEntity getByName(final String name) {
 		Query q = newQuery();
-		q.addFilter("name", EQUAL, name);
+		q.filter("name", name);
 		return selectOne(q, "getByName", params(name));
 	}
 

@@ -34,7 +34,7 @@ import org.vosao.entity.PluginResourceEntity;
 import org.vosao.global.SystemService;
 
 import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Entity;
+
 import com.google.appengine.api.datastore.Query;
 
 public class PluginClassLoader extends ClassLoader {

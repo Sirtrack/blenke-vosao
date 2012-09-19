@@ -22,7 +22,7 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.UserGroupDao;
 import org.vosao.entity.UserGroupEntity;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 /**
  * @author Alexander Oleynik
@@ -46,22 +46,22 @@ public class UserGroupDaoImpl extends BaseDaoImpl<UserGroupEntity>
 	@Override
 	public List<UserGroupEntity> selectByUser(Long userId) {
 		Query q = newQuery();
-		q.addFilter("userId", EQUAL, userId);
+		q.filter("userId", userId);
 		return select(q, "selectByUser", params(userId));
 	}
 
 	@Override
 	public List<UserGroupEntity> selectByGroup(Long groupId) {
 		Query q = newQuery();
-		q.addFilter("groupId", EQUAL, groupId);
+		q.filter("groupId", groupId);
 		return select(q, "selectByGroup", params(groupId));
 	}
 
 	@Override
 	public UserGroupEntity getByUserGroup(Long groupId, Long userId) {
 		Query q = newQuery();
-		q.addFilter("userId", EQUAL, userId);
-		q.addFilter("groupId", EQUAL, groupId);
+		q.filter("userId", userId);
+		q.filter("groupId", groupId);
 		return selectOne(q, "getByUserGroup", params(groupId, userId));
 	}
 

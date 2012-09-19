@@ -314,7 +314,6 @@ public class PageBusinessImpl extends AbstractBusinessImpl
 			final String versionTitle, final UserEntity user) {
 		PageEntity page = new PageEntity();
 		page.copy(oldPage);
-		page.setKey(null);
 		page.setState(PageState.EDIT);
 		page.setVersion(version);
 		page.setVersionTitle(versionTitle);

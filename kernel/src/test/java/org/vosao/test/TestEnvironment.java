@@ -79,6 +79,12 @@ class TestEnvironment implements ApiProxy.Environment {
     public Map<String, Object> getAttributes() {
         Map<String, Object> map = new HashMap<String, Object> ();
         return map;
+    }
+
+    @Override
+    public long getRemainingMillis() {
+      // TODO Auto-generated method stub
+      return 0;
     } 	
 }
 

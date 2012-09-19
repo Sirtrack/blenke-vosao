@@ -28,8 +28,8 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.ContentDao;
 import org.vosao.entity.ContentEntity;
 
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
+import siena.Query;
+
 
 public class ContentDaoImpl extends BaseDaoImpl<ContentEntity> 
 		implements ContentDao {
@@ -42,8 +42,8 @@ public class ContentDaoImpl extends BaseDaoImpl<ContentEntity>
 	public List<ContentEntity> select(final String parentClass, 
 			final Long parentKey) {
 		Query q = newQuery();
-		q.addFilter("parentClass", FilterOperator.EQUAL, parentClass);
-		q.addFilter("parentKey", FilterOperator.EQUAL, parentKey);
+		q.filter("parentClass", parentClass);
+		q.filter("parentKey", parentKey);
 		return select(q, "select", params(parentClass, parentKey));
 	}
 	
@@ -51,9 +51,9 @@ public class ContentDaoImpl extends BaseDaoImpl<ContentEntity>
 	public ContentEntity getByLanguage(final String parentClass, 
 			final Long parentKey, final String language) {
 		Query q = newQuery();
-		q.addFilter("parentClass", FilterOperator.EQUAL, parentClass);
-		q.addFilter("parentKey", FilterOperator.EQUAL, parentKey);
-		q.addFilter("languageCode", FilterOperator.EQUAL, language);
+		q.filter("parentClass", parentClass);
+		q.filter("parentKey", parentKey);
+		q.filter("languageCode", language);
 		return selectOne(q, "getByLanguage", params(parentClass, parentKey, 
 				language));
 	}
@@ -61,8 +61,8 @@ public class ContentDaoImpl extends BaseDaoImpl<ContentEntity>
 	@Override
 	public void removeById(String className, Long id) {
 		Query q = newQuery();
-		q.addFilter("parentClass", FilterOperator.EQUAL, className);
-		q.addFilter("parentKey", FilterOperator.EQUAL, id);
+		q.filter("parentClass", className);
+		q.filter("parentKey", id);
 		removeSelected(q);
 	}
 	

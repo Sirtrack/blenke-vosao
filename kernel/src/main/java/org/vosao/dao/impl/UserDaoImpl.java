@@ -33,8 +33,8 @@ import org.vosao.entity.UserEntity;
 import org.vosao.entity.UserGroupEntity;
 import org.vosao.enums.UserRole;
 
-import com.google.appengine.api.datastore.Query;
-import static com.google.appengine.api.datastore.Query.FilterOperator.*;
+import siena.Query;
+import static com.google.appengine.api.datastore.Query.*;
 
 public class UserDaoImpl extends BaseDaoImpl<UserEntity> 
 		implements UserDao {
@@ -45,13 +45,13 @@ public class UserDaoImpl extends BaseDaoImpl<UserEntity>
 
 	public UserEntity getByEmail(final String email) {
 		Query q = newQuery();
-		q.addFilter("email", EQUAL, email);
+		q.filter("email", email);
 		return selectOne(q, "getByEmail", params(email));
 	}
 
 	public List<UserEntity> getByRole(final UserRole role) {
 		Query q = newQuery();
-		q.addFilter("role", EQUAL, role.name());
+		q.filter("role", role.name());
 		return select(q, "getByRole", params(role));
 	}
 
@@ -79,7 +79,7 @@ public class UserDaoImpl extends BaseDaoImpl<UserEntity>
 			return null;
 		}
 		Query q = newQuery();
-		q.addFilter("forgotPasswordKey", EQUAL, key);
+		q.filter("forgotPasswordKey", key);
 		return selectOne(q, "getByKey", params(key));
 	}
 

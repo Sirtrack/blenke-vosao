@@ -27,6 +27,8 @@ import java.util.List;
 import org.vosao.dao.tool.FolderTool;
 import org.vosao.entity.FolderEntity;
 
+
+
 public class FolderDaoTest extends AbstractDaoTest {
 
 	private FolderTool folderTool;

@@ -156,7 +156,7 @@ public class DaoTaskAdapterImpl implements DaoTaskAdapter {
 					throw new DaoTaskException("Form not found while " 
 						+ "skipping save operation. " + entity.getName());
 				}
-				entity.setKey(found.getKey());
+				entity.setId(found.getId());
 			}
 		}
 		else {
@@ -176,7 +176,7 @@ public class DaoTaskAdapterImpl implements DaoTaskAdapter {
 					throw new DaoTaskException("Field not found while " 
 						+ "skipping save operation. " + entity.getName());
 				}
-				entity.setKey(found.getKey());
+				entity.setId(found.getId());
 			}
 		}
 		else {
@@ -193,7 +193,7 @@ public class DaoTaskAdapterImpl implements DaoTaskAdapter {
 					throw new DaoTaskException("Form config not found while " 
 						+ "skipping save operation. ");
 				}
-				entity.setKey(found.getKey());
+				entity.setId(found.getId());
 			}
 		}
 		else {
@@ -211,7 +211,7 @@ public class DaoTaskAdapterImpl implements DaoTaskAdapter {
 					throw new DaoTaskException("Group not found while " 
 						+ "skipping save operation. " + entity.getName());
 				}
-				entity.setKey(found.getKey());
+				entity.setId(found.getId());
 			}
 		}
 		else {
@@ -230,7 +230,7 @@ public class DaoTaskAdapterImpl implements DaoTaskAdapter {
 						+ "skipping save operation. group=" + entity.getGroupId()
 						+ " user=" + entity.getUserId());
 				}
-				entity.setKey(found.getKey());
+				entity.setId(found.getId());
 			}
 		}
 		else {
@@ -356,7 +356,7 @@ public class DaoTaskAdapterImpl implements DaoTaskAdapter {
 					throw new DaoTaskException("User not found while " 
 						+ "skipping save operation. " + entity.getEmail());
 				}
-				entity.setKey(found.getKey());
+				entity.setId(found.getId());
 			}
 		}
 		else {

@@ -22,13 +22,13 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.PageTagDao;
 import org.vosao.entity.PageTagEntity;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 public class PageTagDaoImpl extends BaseDaoImpl<PageTagEntity> 
 		implements PageTagDao {
@@ -40,7 +40,7 @@ public class PageTagDaoImpl extends BaseDaoImpl<PageTagEntity>
 	@Override
 	public PageTagEntity getByURL(final String url) {
 		Query q = newQuery();
-		q.addFilter("pageURL", EQUAL, url);
+		q.filter("pageURL", url);
 		return selectOne(q, "getByURL", params(url));
 	}
 

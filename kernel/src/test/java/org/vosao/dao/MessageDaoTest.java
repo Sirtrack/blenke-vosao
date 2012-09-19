@@ -28,6 +28,7 @@ import org.vosao.entity.LanguageEntity;
 import org.vosao.entity.MessageEntity;
 
 
+
 public class MessageDaoTest extends AbstractDaoTest {
 
 	private MessageEntity addMessage(String code, String languageCode,

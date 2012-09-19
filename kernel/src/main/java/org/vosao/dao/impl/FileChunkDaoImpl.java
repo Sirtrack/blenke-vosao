@@ -22,7 +22,7 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +35,7 @@ import org.vosao.entity.FileChunkEntity;
 import org.vosao.entity.FileEntity;
 import org.vosao.utils.ArrayUtil;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 public class FileChunkDaoImpl extends BaseDaoImpl<FileChunkEntity> 
 		implements FileChunkDao {
@@ -50,7 +50,7 @@ public class FileChunkDaoImpl extends BaseDaoImpl<FileChunkEntity>
 			return;
 		}
 		Query q = newQuery();
-		q.addFilter("fileId", EQUAL, fileId);
+		q.filter("fileId", fileId);
 		removeSelected(q);
 	}
 
@@ -79,7 +79,7 @@ public class FileChunkDaoImpl extends BaseDaoImpl<FileChunkEntity>
 	
 	private List<FileChunkEntity> getByFile(Long fileId) {
 		Query q = newQuery();
-		q.addFilter("fileId", EQUAL, fileId);
+		q.filter("fileId", fileId);
 		List<FileChunkEntity> result = selectNotCache(q);
 		Collections.sort(result, new Comparator<FileChunkEntity>() {
 				@Override

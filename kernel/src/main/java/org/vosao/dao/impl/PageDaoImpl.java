@@ -39,8 +39,8 @@ import org.vosao.entity.ContentEntity;
 import org.vosao.entity.PageEntity;
 import org.vosao.entity.helper.PageHelper;
 
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
+import siena.Query;
+
 
 /**
  * @author Alexander Oleynik
@@ -81,17 +81,17 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 
 	public List<PageEntity> selectAllChildren(final String parentUrl) {
 		Query q = newQuery();
-		q.addFilter("parentUrl", FilterOperator.EQUAL, parentUrl);
+		q.filter("parentUrl", parentUrl);
 		return select(q, "selectAllChildren", params(parentUrl));
 	}
 	
 	public List<PageEntity> selectAllChildren(final String parentUrl,
 			Date startDate, Date endDate) {
 		Query q = newQuery();
-		q.addFilter("parentUrl", FilterOperator.EQUAL, parentUrl);
-		q.addFilter("publishDate", FilterOperator.GREATER_THAN_OR_EQUAL, 
+		q.filter("parentUrl", parentUrl);
+		q.filter("publishDate>=", 
 				startDate);
-		q.addFilter("publishDate", FilterOperator.LESS_THAN, endDate);
+		q.filter("publishDate<",  endDate);
 		return select(q, "selectAllChildrenDate", params(parentUrl, startDate,
 				endDate));
 	}
@@ -187,7 +187,7 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 	@Override
 	public List<PageEntity> selectByUrl(final String url) {
 		Query q = newQuery();
-		q.addFilter("friendlyURL", FilterOperator.EQUAL, url);
+		q.filter("friendlyURL", url);
 		List<PageEntity> result = select(q, "selectByUrl", params(url));
 		Collections.sort(result, PageHelper.VERSION_ASC);
 		return result;
@@ -196,8 +196,8 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 	@Override
 	public PageEntity getByUrlVersion(final String url, final Integer version) {
 		Query q = newQuery();
-		q.addFilter("friendlyURL", FilterOperator.EQUAL, url);
-		q.addFilter("version", FilterOperator.EQUAL, version);
+		q.filter("friendlyURL", url);
+		q.filter("version", version);
 		return selectOne(q, "getByUrlVersion", params(url, version));
 	}
 	
@@ -220,14 +220,14 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 	@Override
 	public List<PageEntity> selectByTemplate(Long templateId) {
 		Query q = newQuery();
-		q.addFilter("template", FilterOperator.EQUAL, templateId);
+		q.filter("template", templateId);
 		return select(q, "selectByTemplate", params(templateId));
 	}
 
 	@Override
 	public List<PageEntity> selectByStructure(Long structureId) {
 		Query q = newQuery();
-		q.addFilter("structureId", FilterOperator.EQUAL, structureId);
+		q.filter("structureId", structureId);
 		return select(q, "selectByStructure", params(structureId));
 	}
 
@@ -235,7 +235,7 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 	public List<PageEntity> selectByStructureTemplate(
 			Long structureTemplateId) {
 		Query q = newQuery();
-		q.addFilter("structureTemplateId", FilterOperator.EQUAL, 
+		q.filter("structureTemplateId", 
 				structureTemplateId);
 		return select(q, "selectByStructureTemplate", 
 				params(structureTemplateId));
@@ -250,9 +250,9 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 		Date endDate = new Date();
 		Date startDate = DateUtils.addHours(endDate, -1);
 		Query q = newQuery();
-		q.addFilter("publishDate", FilterOperator.GREATER_THAN_OR_EQUAL, 
+		q.filter("publishDate>=", 
 				startDate);
-		q.addFilter("publishDate", FilterOperator.LESS_THAN_OR_EQUAL, 
+		q.filter("publishDate<=", 
 				endDate);
 		return select(q, "getCurrentHourPublishedPages", 
 				params(startDate, endDate));
@@ -263,9 +263,9 @@ public class PageDaoImpl extends BaseDaoImpl<PageEntity>
 		Date endDate = new Date();
 		Date startDate = DateUtils.addHours(endDate, -1);
 		Query q = newQuery();
-		q.addFilter("endPublishDate", FilterOperator.GREATER_THAN_OR_EQUAL, 
+		q.filter("endPublishDate>=", 
 				startDate);
-		q.addFilter("endPublishDate", FilterOperator.LESS_THAN_OR_EQUAL, 
+		q.filter("endPublishDate<=", 
 				endDate);
 		return select(q, "getCurrentHourUnpublishedPages", 
 				params(startDate, endDate));

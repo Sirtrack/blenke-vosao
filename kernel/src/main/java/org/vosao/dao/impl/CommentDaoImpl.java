@@ -22,7 +22,7 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +32,7 @@ import org.vosao.dao.CommentDao;
 import org.vosao.entity.CommentEntity;
 import org.vosao.entity.helper.CommentHelper;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 /**
  * @author Alexander Oleynik
@@ -47,7 +47,7 @@ public class CommentDaoImpl extends BaseDaoImpl<CommentEntity>
 	@Override
 	public List<CommentEntity> getByPage(final String pageUrl) {
 		Query q = newQuery();
-		q.addFilter("pageUrl", EQUAL, pageUrl);
+		q.filter("pageUrl", pageUrl);
 		List<CommentEntity> result = select(q, "getByPage", params(pageUrl));
 		Collections.sort(result, new CommentHelper.PublishDateDesc());
 		return result;
@@ -82,8 +82,8 @@ public class CommentDaoImpl extends BaseDaoImpl<CommentEntity>
 	@Override
 	public List<CommentEntity> getByPage(String pageUrl, boolean disabled) {
 		Query q = newQuery();
-		q.addFilter("pageUrl", EQUAL, pageUrl);
-		q.addFilter("disabled", EQUAL, disabled);
+		q.filter("pageUrl", pageUrl);
+		q.filter("disabled", disabled);
 		List<CommentEntity> result = select(q, "getByPage", params(pageUrl, 
 				disabled));
 		Collections.sort(result, new CommentHelper.PublishDateDesc());
@@ -93,14 +93,14 @@ public class CommentDaoImpl extends BaseDaoImpl<CommentEntity>
 	@Override
 	public void removeByPage(String url) {
 		Query q = newQuery();
-		q.addFilter("pageUrl", EQUAL, url);
+		q.filter("pageUrl", url);
 		removeSelected(q);
 	}
 
 	@Override
 	public List<CommentEntity> getRecent(int limit) {
 		Query q = newQuery();
-		q.addFilter("disabled", EQUAL, false);
+		q.filter("disabled", false);
 		List<CommentEntity> result = select(q, "getRecent", limit, params(false));
 		Collections.sort(result, new CommentHelper.PublishDateDesc());
 		return result;

@@ -22,13 +22,13 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.GroupDao;
 import org.vosao.entity.GroupEntity;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 /**
  * @author Alexander Oleynik
@@ -43,7 +43,7 @@ public class GroupDaoImpl extends BaseDaoImpl<GroupEntity>
 	@Override
 	public GroupEntity getByName(String name) {
 		Query q = newQuery();
-		q.addFilter("name", EQUAL, name);
+		q.filter("name", name);
 		return selectOne(q, "getByName", params(name));
 	}
 

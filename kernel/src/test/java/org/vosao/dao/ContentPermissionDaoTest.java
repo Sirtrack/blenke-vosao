@@ -25,9 +25,11 @@ package org.vosao.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.vosao.dao.tool.ContentPermissionTool;
 import org.vosao.entity.ContentPermissionEntity;
 import org.vosao.enums.ContentPermissionType;
+
 
 public class ContentPermissionDaoTest extends AbstractDaoTest {
 

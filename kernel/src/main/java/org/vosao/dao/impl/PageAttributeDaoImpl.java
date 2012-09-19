@@ -22,7 +22,7 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.PageAttributeDao;
 import org.vosao.entity.PageAttributeEntity;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 /**
  * @author Alexander Oleynik
@@ -55,9 +55,9 @@ public class PageAttributeDaoImpl extends BaseDaoImpl<PageAttributeEntity>
 	private List<PageAttributeEntity> getByPage(final String pageUrl, 
 			Boolean inherited) {
 		Query q = newQuery();
-		q.addFilter("pageUrl", EQUAL, pageUrl);
+		q.filter("pageUrl", pageUrl);
 		if (inherited != null) {
-			q.addFilter("inherited", EQUAL, inherited);
+			q.filter("inherited", inherited);
 		}
 		return select(q, "getByPage", params(pageUrl, inherited));
 	}
@@ -65,15 +65,15 @@ public class PageAttributeDaoImpl extends BaseDaoImpl<PageAttributeEntity>
 	@Override
 	public void removeByPage(String url) {
 		Query q = newQuery();
-		q.addFilter("pageUrl", EQUAL, url);
+		q.filter("pageUrl", url);
 		removeSelected(q);
 	}
 
 	@Override
 	public PageAttributeEntity getByPageName(String pageUrl, String name) {
 		Query q = newQuery();
-		q.addFilter("pageUrl", EQUAL, pageUrl);
-		q.addFilter("name", EQUAL, name);
+		q.filter("pageUrl", pageUrl);
+		q.filter("name", name);
 		return selectOne(q, "getByPageName", params(pageUrl, name));
 	}
 	

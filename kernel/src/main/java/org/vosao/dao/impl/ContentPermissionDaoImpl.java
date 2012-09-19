@@ -22,7 +22,7 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,8 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.ContentPermissionDao;
 import org.vosao.entity.ContentPermissionEntity;
 
-import com.google.appengine.api.datastore.Query;
+
+import siena.Query;
 
 /**
  * @author Alexander Oleynik
@@ -47,7 +48,7 @@ public class ContentPermissionDaoImpl extends
 	@Override
 	public List<ContentPermissionEntity> selectByUrl(final String url) {
 		Query q = newQuery();
-		q.addFilter("url", EQUAL, url);
+		q.filter("url", url);
 		return select(q, "selectByUrl", params(url));
 	}
 
@@ -55,14 +56,14 @@ public class ContentPermissionDaoImpl extends
 	public ContentPermissionEntity getByUrlGroup(final String url, 
 			final Long groupId) {
 		Query q = newQuery();
-		q.addFilter("url", EQUAL, url);
-		q.addFilter("groupId", EQUAL, groupId);
+		q.filter("url", url);
+		q.filter("groupId", groupId);
 		return selectOne(q, "getByUrlGroup", params(url, groupId));
 	}
 
 	private List<ContentPermissionEntity> selectByGroup(final Long groupId) {
 		Query q = newQuery();
-		q.addFilter("groupId", EQUAL, groupId);
+		q.filter("groupId", groupId);
 		return select(q, "selectByGroup", params(groupId));
 	}
 		

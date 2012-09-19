@@ -22,7 +22,7 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import java.util.Date;
 import java.util.List;
@@ -32,7 +32,7 @@ import org.vosao.dao.FileChunkDao;
 import org.vosao.dao.FileDao;
 import org.vosao.entity.FileEntity;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 public class FileDaoImpl extends BaseDaoImpl<FileEntity> 
 		implements FileDao {
@@ -60,15 +60,15 @@ public class FileDaoImpl extends BaseDaoImpl<FileEntity>
 	@Override
 	public List<FileEntity> getByFolder(Long folderId) {
 		Query q = newQuery();
-		q.addFilter("folderId", EQUAL, folderId);
+		q.filter("folderId", folderId);
 		return select(q, "getByFolder", params(folderId));
 	}
 
 	@Override
 	public FileEntity getByName(Long folderId, String name) {
 		Query q = newQuery();
-		q.addFilter("folderId", EQUAL, folderId);
-		q.addFilter("filename", EQUAL, name);
+		q.filter("folderId", folderId);
+		q.filter("filename", name);
 		return selectOne(q, "getByName", params(folderId, name));
 	}
 

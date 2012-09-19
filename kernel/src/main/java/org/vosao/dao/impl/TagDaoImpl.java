@@ -22,7 +22,7 @@
 
 package org.vosao.dao.impl;
 
-import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
+
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.TagDao;
 import org.vosao.entity.TagEntity;
 
-import com.google.appengine.api.datastore.Query;
+import siena.Query;
 
 public class TagDaoImpl extends BaseDaoImpl<TagEntity> 
 		implements TagDao {
@@ -42,15 +42,15 @@ public class TagDaoImpl extends BaseDaoImpl<TagEntity>
 	@Override
 	public TagEntity getByName(final Long parent, final String name) {
 		Query q = newQuery();
-		q.addFilter("parent", EQUAL, parent);
-		q.addFilter("name", EQUAL, name);
+		q.filter("parent", parent);
+		q.filter("name", name);
 		return selectOne(q, "getByName", params(parent, name));
 	}
 
 	@Override
 	public List<TagEntity> selectByParent(final Long parent) {
 		Query q = newQuery();
-		q.addFilter("parent", EQUAL, parent);
+		q.filter("parent", parent);
 		return select(q, "selectByParent", params(parent));
 	}
 

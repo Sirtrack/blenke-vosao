@@ -39,11 +39,9 @@ import org.vosao.dao.cache.QueryCache;
 import org.vosao.entity.BaseEntity;
 import org.vosao.global.CacheService;
 import org.vosao.global.SystemService;
-import org.vosao.utils.EntityUtil;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
+
+import siena.Model;
 
 public class QueryCacheImpl implements QueryCache, Serializable {
 
@@ -92,7 +90,7 @@ public class QueryCacheImpl implements QueryCache, Serializable {
 	}
 	
 	@Override
-	public List<BaseEntity> getQuery(Class clazz, String query, 
+	public List<? extends BaseEntity> getQuery(Class clazz, String query, 
 			Object[] params) {
 		try {
 			CacheItem item = (CacheItem)getCache().get(getQueryKey(clazz, query, 
@@ -115,15 +113,14 @@ public class QueryCacheImpl implements QueryCache, Serializable {
 		return null; 
 	}
 
-	private List<BaseEntity> getCachedQueryResult(Class clazz, CacheItem item) {
+	private List<? extends BaseEntity> getCachedQueryResult(Class clazz, CacheItem item) {
 		getDaoStat().incQueryCacheHits();
 		List<Long> ids = (List<Long>)item.getData();
 		Map<Long, BaseEntity> cached = getEntityCache().getEntities(clazz, ids);
-		List<Key> toLoadKeys = new ArrayList<Key>();
+		List<Long> toLoadKeys = new ArrayList<Long>();
 		for (Long id : cached.keySet()) {
 			if (cached.get(id) == null) {
-				toLoadKeys.add(KeyFactory.createKey(EntityUtil.getKind(clazz), 
-						id));
+				toLoadKeys.add(id);
 			}
 			else {
 				getDaoStat().incEntityCacheHits();
@@ -137,15 +134,14 @@ public class QueryCacheImpl implements QueryCache, Serializable {
 		return result;
 	}
 	
-	private Map<Long, BaseEntity> loadEntities(Class clazz, List<Key> keys) {
+	private Map<Long, ? extends BaseEntity> loadEntities(Class clazz, List<Long> keys) {
 		Map<Long, BaseEntity> result = new HashMap<Long, BaseEntity>();
 		try {
 			getDaoStat().incGetCalls();
-			Map<Key, Entity> loaded = getSystemService().getDatastore().get(keys);
-			for (Key key : loaded.keySet()) {
-				BaseEntity model = (BaseEntity)clazz.newInstance();
-				model.load(loaded.get(key));
-				result.put(model.getId(), model);
+			List<? extends BaseEntity> ls = Model.batch(clazz).getByKeys(keys);
+			
+			for( BaseEntity entity : ls) {
+				result.put(entity.getId(), entity);
 			}
 		}
 		catch (Exception e) {
@@ -156,7 +152,7 @@ public class QueryCacheImpl implements QueryCache, Serializable {
 
 	@Override
 	public void putQuery(Class clazz, String query, Object[] params, 
-			List<BaseEntity> list) {
+			List<? extends BaseEntity> list) {
 		String key = getQueryKey(clazz, query, params);
 		List<Long> ids = new ArrayList<Long>();
 		for (BaseEntity entity : list) {

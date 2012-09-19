@@ -27,6 +27,8 @@ import java.util.List;
 import org.vosao.dao.tool.PageAttributeTool;
 import org.vosao.entity.PageAttributeEntity;
 
+
+
 public class PageAttributeDaoTest extends AbstractDaoTest {
 
 	private PageAttributeTool tool;

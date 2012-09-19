@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+
 import org.vosao.dao.tool.FileTool;
 import org.vosao.dao.tool.FolderTool;
 import org.vosao.entity.FileChunkEntity;
@@ -37,7 +38,7 @@ import org.vosao.entity.FolderEntity;
 import org.vosao.utils.StreamUtil;
 
 import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Entity;
+
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 

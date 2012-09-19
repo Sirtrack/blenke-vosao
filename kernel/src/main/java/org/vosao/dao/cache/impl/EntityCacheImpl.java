@@ -115,7 +115,7 @@ public class EntityCacheImpl implements EntityCache, Serializable {
 	}
 
 	@Override
-	public void putEntities(Class clazz, List<BaseEntity> list) {
+	public void putEntities(Class clazz, List<? extends BaseEntity> list) {
 		Map<String, CacheItem> map = new HashMap<String, CacheItem>(); 
 		for (BaseEntity entity : list) {
 			map.put(getEntityKey(clazz, entity.getId()), new CacheItem(entity));

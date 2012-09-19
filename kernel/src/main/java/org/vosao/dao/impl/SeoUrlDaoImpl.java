@@ -26,8 +26,8 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.SeoUrlDao;
 import org.vosao.entity.SeoUrlEntity;
 
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
+import siena.Query;
+
 
 public class SeoUrlDaoImpl extends BaseDaoImpl<SeoUrlEntity> 
 		implements SeoUrlDao {
@@ -38,7 +38,7 @@ public class SeoUrlDaoImpl extends BaseDaoImpl<SeoUrlEntity>
 
 	public SeoUrlEntity getByFrom(final String from) {
 		Query q = newQuery();
-		q.addFilter("fromLink", FilterOperator.EQUAL, from);
+		q.filter("fromLink", from);
 		return selectOne(q, "getByFrom", params(from));
 	}
 

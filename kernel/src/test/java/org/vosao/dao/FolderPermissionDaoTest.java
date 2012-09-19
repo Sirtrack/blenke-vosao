@@ -25,11 +25,13 @@ package org.vosao.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.vosao.dao.tool.FolderPermissionTool;
 import org.vosao.dao.tool.FolderTool;
 import org.vosao.entity.FolderEntity;
 import org.vosao.entity.FolderPermissionEntity;
 import org.vosao.enums.FolderPermissionType;
+
 
 public class FolderPermissionDaoTest extends AbstractDaoTest {
 

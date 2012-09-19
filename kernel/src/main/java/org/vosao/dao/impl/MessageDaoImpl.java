@@ -28,8 +28,8 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.MessageDao;
 import org.vosao.entity.MessageEntity;
 
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
+import siena.Query;
+
 
 public class MessageDaoImpl extends BaseDaoImpl<MessageEntity> 
 		implements MessageDao {
@@ -41,7 +41,7 @@ public class MessageDaoImpl extends BaseDaoImpl<MessageEntity>
 	@Override
 	public List<MessageEntity> selectByCode(final String code) {
 		Query q = newQuery();
-		q.addFilter("code", FilterOperator.EQUAL, code);
+		q.filter("code", code);
 		return select(q, "selectByCode", params(code));
 	}
 	
@@ -49,15 +49,15 @@ public class MessageDaoImpl extends BaseDaoImpl<MessageEntity>
 	public MessageEntity getByCode(final String code, 
 			final String languageCode) {
 		Query q = newQuery();
-		q.addFilter("code", FilterOperator.EQUAL, code);
-		q.addFilter("languageCode", FilterOperator.EQUAL, languageCode);
+		q.filter("code", code);
+		q.filter("languageCode", languageCode);
 		return selectOne(q, "getByCode", params(code, languageCode));
 	}
 
 	@Override
 	public List<MessageEntity> select(final String languageCode) {
 		Query q = newQuery();
-		q.addFilter("languageCode", FilterOperator.EQUAL, languageCode);
+		q.filter("languageCode", languageCode);
 		return select(q, "select", params(languageCode));
 	}
 

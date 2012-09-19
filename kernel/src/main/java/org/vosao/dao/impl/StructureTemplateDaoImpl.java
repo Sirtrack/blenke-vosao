@@ -28,8 +28,8 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.StructureTemplateDao;
 import org.vosao.entity.StructureTemplateEntity;
 
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
+import siena.Query;
+
 
 /**
  * @author Alexander Oleynik
@@ -45,21 +45,21 @@ public class StructureTemplateDaoImpl
 	@Override
 	public List<StructureTemplateEntity> selectByStructure(Long structureId) {
 		Query q = newQuery();
-		q.addFilter("structureId", FilterOperator.EQUAL, structureId);
+		q.filter("structureId", structureId);
 		return select(q, "selectByStructure", params(structureId));
 	}
 
 	@Override
 	public StructureTemplateEntity getByName(String name) {
 		Query q = newQuery();
-		q.addFilter("name", FilterOperator.EQUAL, name);
+		q.filter("name", name);
 		return selectOne(q, "getByName", params(name));
 	}
 
 	@Override
 	public StructureTemplateEntity getByTitle(String title) {
 		Query q = newQuery();
-		q.addFilter("title", FilterOperator.EQUAL, title);
+		q.filter("title", title);
 		return selectOne(q, "getByTitle", params(title));
 	}
 }

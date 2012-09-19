@@ -28,8 +28,8 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.PluginDao;
 import org.vosao.entity.PluginEntity;
 
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
+import siena.Query;
+
 
 public class PluginDaoImpl extends BaseDaoImpl<PluginEntity> 
 		implements PluginDao {
@@ -41,14 +41,14 @@ public class PluginDaoImpl extends BaseDaoImpl<PluginEntity>
 	@Override
 	public PluginEntity getByName(final String name) {
 		Query q = newQuery();
-		q.addFilter("name", FilterOperator.EQUAL, name);
+		q.filter("name", name);
 		return selectOne(q, "getByName", params(name));
 	}
 	
 	@Override
 	public List<PluginEntity> selectEnabled() {
 		Query q = newQuery();
-		q.addFilter("disabled", FilterOperator.EQUAL, false);
+		q.filter("disabled", false);
 		return select(q, "selectEnabled", params(false));
 	}
 

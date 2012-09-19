@@ -25,11 +25,13 @@ package org.vosao.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.vosao.dao.tool.GroupTool;
 import org.vosao.dao.tool.UserTool;
 import org.vosao.entity.GroupEntity;
 import org.vosao.entity.UserEntity;
 import org.vosao.enums.UserRole;
+
 
 public class UserDaoTest extends AbstractDaoTest {
 

@@ -28,7 +28,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.PageTagDao;
 import org.vosao.entity.PageTagEntity;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 public class PageTagDaoImpl extends BaseDaoImpl<PageTagEntity> 
 		implements PageTagDao {
@@ -39,7 +39,7 @@ public class PageTagDaoImpl extends BaseDaoImpl<PageTagEntity>
 
 	@Override
 	public PageTagEntity getByURL(final String url) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("pageURL", url);
 		return selectOne(q, "getByURL", params(url));
 	}

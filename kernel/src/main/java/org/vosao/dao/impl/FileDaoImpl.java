@@ -32,7 +32,7 @@ import org.vosao.dao.FileChunkDao;
 import org.vosao.dao.FileDao;
 import org.vosao.entity.FileEntity;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 public class FileDaoImpl extends BaseDaoImpl<FileEntity> 
 		implements FileDao {
@@ -59,14 +59,14 @@ public class FileDaoImpl extends BaseDaoImpl<FileEntity>
 
 	@Override
 	public List<FileEntity> getByFolder(Long folderId) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("folderId", folderId);
 		return select(q, "getByFolder", params(folderId));
 	}
 
 	@Override
 	public FileEntity getByName(Long folderId, String name) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("folderId", folderId);
 		q.filter("filename", name);
 		return selectOne(q, "getByName", params(folderId, name));

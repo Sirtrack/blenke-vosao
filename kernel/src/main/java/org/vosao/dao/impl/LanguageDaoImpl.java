@@ -26,7 +26,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.LanguageDao;
 import org.vosao.entity.LanguageEntity;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 
 public class LanguageDaoImpl extends BaseDaoImpl<LanguageEntity> 
@@ -37,7 +37,7 @@ public class LanguageDaoImpl extends BaseDaoImpl<LanguageEntity>
 	}
 
 	public LanguageEntity getByCode(final String code) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("code", code);
 		return selectOne(q, "getByCode", params(code));
 	}

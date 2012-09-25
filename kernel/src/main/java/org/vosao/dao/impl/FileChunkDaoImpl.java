@@ -35,7 +35,7 @@ import org.vosao.entity.FileChunkEntity;
 import org.vosao.entity.FileEntity;
 import org.vosao.utils.ArrayUtil;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 public class FileChunkDaoImpl extends BaseDaoImpl<FileChunkEntity> 
 		implements FileChunkDao {
@@ -49,7 +49,7 @@ public class FileChunkDaoImpl extends BaseDaoImpl<FileChunkEntity>
 		if (fileId == null) {
 			return;
 		}
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("fileId", fileId);
 		removeSelected(q);
 	}
@@ -78,7 +78,7 @@ public class FileChunkDaoImpl extends BaseDaoImpl<FileChunkEntity>
 	}
 	
 	private List<FileChunkEntity> getByFile(Long fileId) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("fileId", fileId);
 		List<FileChunkEntity> result = selectNotCache(q);
 		Collections.sort(result, new Comparator<FileChunkEntity>() {

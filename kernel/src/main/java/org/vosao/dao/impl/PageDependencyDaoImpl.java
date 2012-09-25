@@ -30,7 +30,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.PageDependencyDao;
 import org.vosao.entity.PageDependencyEntity;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 /**
  * @author Alexander Oleynik
@@ -44,14 +44,14 @@ public class PageDependencyDaoImpl extends BaseDaoImpl<PageDependencyEntity>
 
 	@Override
 	public List<PageDependencyEntity> selectByPage(final String pageUrl) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("page", pageUrl);
 		return select(q, "getByPage", params(pageUrl));
 	}
 	
 	@Override
 	public List<PageDependencyEntity> selectByDependency(final String pageUrl) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("dependency", pageUrl);
 		return select(q, "getByDependency", params(pageUrl));
 	}
@@ -59,7 +59,7 @@ public class PageDependencyDaoImpl extends BaseDaoImpl<PageDependencyEntity>
 	@Override
 	public PageDependencyEntity getByPageAndDependency(String pageUrl,
 			String dependency) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("page", pageUrl);
 		q.filter("dependency", dependency);
 		return selectOne(q, "getByPageAndDependency", params(pageUrl, dependency));

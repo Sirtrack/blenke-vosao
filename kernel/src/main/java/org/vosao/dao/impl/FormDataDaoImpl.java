@@ -31,7 +31,7 @@ import org.vosao.dao.FormDataDao;
 import org.vosao.entity.FormDataEntity;
 import org.vosao.entity.FormEntity;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 /**
  * 
@@ -47,7 +47,7 @@ public class FormDataDaoImpl extends BaseDaoImpl<FormDataEntity>
 
 	@Override
 	public List<FormDataEntity> getByForm(final FormEntity form) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("formId", form.getId());
 		return select(q, "getByForm", params(form.getId()));
 	}

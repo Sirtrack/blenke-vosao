@@ -31,7 +31,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.FolderPermissionDao;
 import org.vosao.entity.FolderPermissionEntity;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 /**
  * @author Alexander Oleynik
@@ -46,7 +46,7 @@ public class FolderPermissionDaoImpl
 
 	@Override
 	public List<FolderPermissionEntity> selectByFolder(final Long folderId) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("folderId", folderId);
 		return select(q, "selectByFolder", params(folderId));
 	}
@@ -54,14 +54,14 @@ public class FolderPermissionDaoImpl
 	@Override
 	public FolderPermissionEntity getByFolderGroup(final Long folderId, 
 			final Long groupId) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("folderId", folderId);
 		q.filter("groupId", groupId);
 		return selectOne(q, "getByFolderGroup", params(folderId, groupId));
 	}
 
 	private List<FolderPermissionEntity> selectByGroup(final Long groupId) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("groupId", groupId);
 		return select(q, "selectByGroup", params(groupId));
 	}

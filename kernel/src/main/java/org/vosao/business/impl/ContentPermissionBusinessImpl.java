@@ -55,7 +55,7 @@ public class ContentPermissionBusinessImpl extends AbstractBusinessImpl
 	public ContentPermissionEntity getPermission(final String url,
 			final UserEntity user) {
 
-	  if (user.isAdmin()) {
+	  if (user != null && user.isAdmin()) {
       return new ContentPermissionEntity(url, ContentPermissionType.ADMIN);
     }
 

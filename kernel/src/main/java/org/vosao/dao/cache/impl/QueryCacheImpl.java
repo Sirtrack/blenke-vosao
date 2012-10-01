@@ -160,7 +160,12 @@ public class QueryCacheImpl implements QueryCache, Serializable {
     getDaoStat().incQueryCacheHits();
     List<Long> ids = (List<Long>)item.getData();
 
-    BaseEntity result = (BaseEntity) getEntityCache().getEntity(clazz, ids.get(0));
+    BaseEntity result = null;
+    
+    if(ids.size()> 0) {
+      result = (BaseEntity) getEntityCache().getEntity(clazz, ids.get(0));
+    }
+    
     if (result == null) {
 //      cached.putAll(loadEntities(clazz, toLoadKeys));
       result = Model.getByKey( clazz, ids.get(0));

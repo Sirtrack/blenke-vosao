@@ -113,6 +113,28 @@ public class QueryCacheImpl implements QueryCache, Serializable {
 		return null; 
 	}
 
+	  
+	  public BaseEntity getQueryOne(Class clazz, String query, Object[] params) {
+	    try {
+	      CacheItem item = (CacheItem)getCache().get(getQueryKey(clazz, query, params));
+	      if (item != null) {
+	        Date globalResetDate = getCache().getResetDate();
+	        if (globalResetDate == null 
+	            || item.getTimestamp().after(globalResetDate)) {
+	          Date classResetDate = getClassResetDate(clazz);
+	          if (classResetDate == null
+	              || item.getTimestamp().after(classResetDate)) {
+	            return getOneCachedQueryResult(clazz, item);
+	          }
+	        }
+	      }
+	    }
+	    catch (Exception e) {
+	      logger.error(ExceptionUtils.getStackTrace(e));
+	    }
+	    return null; 
+	  }
+
 	private List<? extends BaseEntity> getCachedQueryResult(Class clazz, CacheItem item) {
 		getDaoStat().incQueryCacheHits();
 		List<Long> ids = (List<Long>)item.getData();
@@ -133,6 +155,22 @@ public class QueryCacheImpl implements QueryCache, Serializable {
 		}
 		return result;
 	}
+
+  private BaseEntity getOneCachedQueryResult(Class<? extends BaseEntity> clazz, CacheItem item) {
+    getDaoStat().incQueryCacheHits();
+    List<Long> ids = (List<Long>)item.getData();
+
+    BaseEntity result = (BaseEntity) getEntityCache().getEntity(clazz, ids.get(0));
+    if (result == null) {
+//      cached.putAll(loadEntities(clazz, toLoadKeys));
+      result = Model.getByKey( clazz, ids.get(0));
+    }
+    else {
+      getDaoStat().incEntityCacheHits();
+    }
+
+    return result;
+  }
 	
 	private Map<Long, ? extends BaseEntity> loadEntities(Class clazz, List<Long> keys) {
 		Map<Long, BaseEntity> result = new HashMap<Long, BaseEntity>();
@@ -151,7 +189,7 @@ public class QueryCacheImpl implements QueryCache, Serializable {
 	}
 
 	@Override
-	public void putQuery(Class clazz, String query, Object[] params, 
+	public void putQuery(Class<? extends BaseEntity> clazz, String query, Object[] params, 
 			List<? extends BaseEntity> list) {
 		String key = getQueryKey(clazz, query, params);
 		List<Long> ids = new ArrayList<Long>();

@@ -59,16 +59,21 @@ public class ContentPermissionBusinessImpl extends AbstractBusinessImpl
       return new ContentPermissionEntity(url, ContentPermissionType.ADMIN);
     }
 
-    ContentPermissionEntity guestPermission = getGuestPermission(url);
+	  try{
+      ContentPermissionEntity guestPermission = getGuestPermission(url);
+      
+      // just quick hack to speed up things
+      // if in the future we enable Users to write to the site
+      // need to improve
+      if (user == null || guestPermission.isRead() ) {
+  			return guestPermission;
+  		}
+	  }
+    catch( Exception e ){
+      return new ContentPermissionEntity( url, ContentPermissionType.DENIED);
+    }
     
-    // just quick hack to speed up things
-    // if in the future we enable Users to write to the site
-    // need to improve
-    if (user == null || guestPermission.isRead() ) {
-			return guestPermission;
-		}
-		
-    List<UserGroupEntity> userGroups = getDao().getUserGroupDao()
+	  List<UserGroupEntity> userGroups = getDao().getUserGroupDao()
 				.selectByUser(user.getId());
 		userGroups.add(new UserGroupEntity(getDao().getGroupDao()
 				.getGuestsGroup().getId(), user.getId()));

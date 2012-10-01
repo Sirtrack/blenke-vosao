@@ -211,21 +211,20 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
 
   protected T selectOne(Query query, String queryId, int queryLimit, 
       Object[] params) {
-    List<T> result = (List<T>) getQueryCache().getQuery(clazz, queryId, 
-        params);
-    if (result == null || result.size()==0) {
-      getDao().getDaoStat().incQueryCalls();
-      T one = selectOneNotCache(query);
-      if(one == null)
-        return null;
-      result =  new ArrayList<T>();
-      result.add(one);
-      getQueryCache().putQuery(clazz, queryId, params, result);      
-    }
-    if( result == null || result.size()==0)
-      return null;
+    T result = (T) getQueryCache().getQueryOne(clazz, queryId, params);
     
-    return result.get(0);
+    if (result == null ) {
+      getDao().getDaoStat().incQueryCalls();
+      result = selectOneNotCache(query);
+      if(result == null)
+        return null;
+      
+      List<T> list =  new ArrayList<T>();
+      list.add(result);
+      getQueryCache().putQuery(clazz, queryId, params, list);      
+    }
+
+    return result;
   }
 
   protected List<T> select(Query<T> query, String queryId, int queryLimit, 

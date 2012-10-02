@@ -30,7 +30,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.TagDao;
 import org.vosao.entity.TagEntity;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 public class TagDaoImpl extends BaseDaoImpl<TagEntity> 
 		implements TagDao {
@@ -41,7 +41,7 @@ public class TagDaoImpl extends BaseDaoImpl<TagEntity>
 
 	@Override
 	public TagEntity getByName(final Long parent, final String name) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("parent", parent);
 		q.filter("name", name);
 		return selectOne(q, "getByName", params(parent, name));
@@ -49,7 +49,7 @@ public class TagDaoImpl extends BaseDaoImpl<TagEntity>
 
 	@Override
 	public List<TagEntity> selectByParent(final Long parent) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("parent", parent);
 		return select(q, "selectByParent", params(parent));
 	}

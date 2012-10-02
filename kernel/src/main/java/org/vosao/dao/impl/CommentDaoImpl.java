@@ -32,7 +32,7 @@ import org.vosao.dao.CommentDao;
 import org.vosao.entity.CommentEntity;
 import org.vosao.entity.helper.CommentHelper;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 /**
  * @author Alexander Oleynik
@@ -46,7 +46,7 @@ public class CommentDaoImpl extends BaseDaoImpl<CommentEntity>
 
 	@Override
 	public List<CommentEntity> getByPage(final String pageUrl) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("pageUrl", pageUrl);
 		List<CommentEntity> result = select(q, "getByPage", params(pageUrl));
 		Collections.sort(result, new CommentHelper.PublishDateDesc());
@@ -81,7 +81,7 @@ public class CommentDaoImpl extends BaseDaoImpl<CommentEntity>
 
 	@Override
 	public List<CommentEntity> getByPage(String pageUrl, boolean disabled) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("pageUrl", pageUrl);
 		q.filter("disabled", disabled);
 		List<CommentEntity> result = select(q, "getByPage", params(pageUrl, 
@@ -92,14 +92,14 @@ public class CommentDaoImpl extends BaseDaoImpl<CommentEntity>
 
 	@Override
 	public void removeByPage(String url) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("pageUrl", url);
 		removeSelected(q);
 	}
 
 	@Override
 	public List<CommentEntity> getRecent(int limit) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("disabled", false);
 		List<CommentEntity> result = select(q, "getRecent", limit, params(false));
 		Collections.sort(result, new CommentHelper.PublishDateDesc());

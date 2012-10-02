@@ -28,7 +28,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.FormDao;
 import org.vosao.entity.FormEntity;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 public class FormDaoImpl extends BaseDaoImpl<FormEntity> 
 		implements FormDao {
@@ -39,7 +39,7 @@ public class FormDaoImpl extends BaseDaoImpl<FormEntity>
 
 	@Override
 	public FormEntity getByName(final String name) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("name", name);
 		return selectOne(q, "getByName", params(name));
 	}

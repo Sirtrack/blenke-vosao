@@ -26,7 +26,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.TemplateDao;
 import org.vosao.entity.TemplateEntity;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 
 public class TemplateDaoImpl extends BaseDaoImpl<TemplateEntity> 
@@ -37,7 +37,7 @@ public class TemplateDaoImpl extends BaseDaoImpl<TemplateEntity>
 	}
 
 	public TemplateEntity getByUrl(final String url) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("url", url);
 		return selectOne(q, "getByUrl", params(url));
 	}

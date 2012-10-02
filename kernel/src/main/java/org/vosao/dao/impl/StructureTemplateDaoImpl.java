@@ -28,7 +28,7 @@ import org.vosao.dao.BaseDaoImpl;
 import org.vosao.dao.StructureTemplateDao;
 import org.vosao.entity.StructureTemplateEntity;
 
-import siena.core.async.QueryAsync;
+import siena.Query;
 
 
 /**
@@ -44,21 +44,21 @@ public class StructureTemplateDaoImpl
 
 	@Override
 	public List<StructureTemplateEntity> selectByStructure(Long structureId) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("structureId", structureId);
 		return select(q, "selectByStructure", params(structureId));
 	}
 
 	@Override
 	public StructureTemplateEntity getByName(String name) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("name", name);
 		return selectOne(q, "getByName", params(name));
 	}
 
 	@Override
 	public StructureTemplateEntity getByTitle(String title) {
-		QueryAsync q = newQuery();
+		Query q = newQuery();
 		q.filter("title", title);
 		return selectOne(q, "getByTitle", params(title));
 	}

@@ -75,6 +75,10 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+		<repository>
+            <id>objectify-appengine</id>
+            <url>http://objectify-appengine.googlecode.com/svn/maven</url>
+        </repository>
     </repositories>
     
     <modules>
@@ -112,6 +116,7 @@
     <properties>
       <gae.application.id>vosaocms</gae.application.id>
       <gae.application.version>vosaocms-0-9</gae.application.version>
+	  <gae.version>1.7.1</gae.version>
       <vosao.version>0.9</vosao.version>
       <vosao.version.full>0.9.14</vosao.version.full>
       <vosao.admin.username>admin</vosao.admin.username>

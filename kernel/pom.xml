@@ -208,7 +208,7 @@
 		<dependency>
 			<groupId>siena</groupId>
 			<artifactId>siena</artifactId>
-			<version>1.0.0-b6</version>
+			<version>1.0.0-b7</version>
         </dependency>
 
     </dependencies>

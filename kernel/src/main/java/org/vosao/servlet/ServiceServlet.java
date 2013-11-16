@@ -181,9 +181,14 @@ public class ServiceServlet extends JSONRPCServlet {
 
     	VosaoContext.getInstance().getFrontService().register(bridge);
 
-    	if (isLoggedIn && ctx.getUser() != null	&& !ctx.getUser().isSiteUser()) {
+    	if (isLoggedIn && ctx.getUser() != null	) {
+    	  if( !ctx.getUser().isSiteUser()) {
         	VosaoContext.getInstance().getBackService().register(bridge);
         }
+    	  else {
+          VosaoContext.getInstance().getFrontUserService().register(bridge);
+    	  }
+    	}
         return bridge;
     }
 

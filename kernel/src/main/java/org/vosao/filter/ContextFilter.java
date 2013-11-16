@@ -38,6 +38,7 @@ import org.vosao.common.Session;
 import org.vosao.common.VosaoContext;
 import org.vosao.service.impl.BackServiceImpl;
 import org.vosao.service.impl.FrontServiceImpl;
+import org.vosao.service.impl.LimitedServiceImpl;
 
 /**
  * Vosao context creation and request injection.
@@ -69,6 +70,9 @@ public class ContextFilter extends AbstractFilter implements Filter {
     	if (ctx.getBackService() == null) {
         	ctx.setBackService(new BackServiceImpl());
     	}
+      if (ctx.getFrontUserService() == null) {
+        ctx.setFrontUserService(new LimitedServiceImpl());
+    }
     	ctx.getPageRenderingContext().clear();
     	ctx.setSession(new Session((HttpServletRequest)request));
     	chain.doFilter(request, response);

@@ -50,7 +50,7 @@ public class LoginServiceImpl extends AbstractServiceImpl
 
 	@Override
 	public ServiceResponse login(String email, String password) {
-		UserEntity user = getDao().getUserDao().getByEmail(email);
+		UserEntity user = getDao().getUserDao().getByEmail(email.toLowerCase());
 		if (user == null || user.isDisabled()) {
 			return ServiceResponse.createErrorResponse(Messages.get(
 					"user_not_found"));

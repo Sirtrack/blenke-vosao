@@ -35,6 +35,7 @@ import org.vosao.entity.ConfigEntity;
 import org.vosao.entity.UserEntity;
 import org.vosao.service.BackService;
 import org.vosao.service.FrontService;
+import org.vosao.service.LimitedService;
 
 /**
  * Store request scoped data in thread local variable and set it in filter.
@@ -55,6 +56,7 @@ public class VosaoContext {
 	private Business business;
 	private FrontService frontService;
 	private BackService backService;
+	private LimitedService frontUserService;
 	private MessageQueue messageQueue;
 	private List<String> skipURLs;
 	private PageRenderingContext pageRenderingContext;
@@ -142,6 +144,15 @@ public class VosaoContext {
 	public void setBackService(BackService backService) {
 		this.backService = backService;
 	}
+
+  public LimitedService getFrontUserService() {
+    return frontUserService;
+  }
+
+  public void setFrontUserService( LimitedService frontUserService) {
+    this.frontUserService = frontUserService;
+  }
+
 
 	public MessageQueue getMessageQueue() {
 		return messageQueue;

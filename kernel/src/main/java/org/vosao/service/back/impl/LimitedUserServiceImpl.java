@@ -34,6 +34,7 @@ import org.vosao.entity.UserEntity;
 import org.vosao.enums.UserRole;
 import org.vosao.i18n.Messages;
 import org.vosao.service.ServiceResponse;
+import org.vosao.service.back.LimitedUserService;
 import org.vosao.service.back.UserService;
 import org.vosao.service.impl.AbstractServiceImpl;
 import org.vosao.service.vo.UserVO;
@@ -44,42 +45,26 @@ import org.vosao.utils.ParamUtil;
  * @author Alexander Oleynik
  *
  */
-public class UserServiceImpl extends AbstractServiceImpl 
-		implements UserService {
+public class LimitedUserServiceImpl extends AbstractServiceImpl implements LimitedUserService  {
 
-	@Override
 	public List<UserVO> select() {
 		return UserVO.create(getDao().getUserDao().select());
 	}
 
-	@Override
-	public ServiceResponse remove(List<String> ids) {
-		List<Long> idList = new ArrayList<Long>();
-		String msg = Messages.get("users.success_delete");
-		for (String idString : ids) {
-			Long id = Long.valueOf(idString);
-			if (getBusiness().getUser().getId().equals(id)) {
-				msg = Messages.get("users.cant_delete_myself");
-			}
-			else {
-				idList.add(id);
-			}
-		}
-		getBusiness().getUserBusiness().remove(idList);
-		return ServiceResponse.createSuccessResponse(msg);
-	}
-
-	@Override
-	public UserEntity getById(Long id) {
-		return getDao().getUserDao().getById(id);
-	}
-
-	@Override
 	public ServiceResponse save(Map<String, String> vo) {
 		UserEntity user = null;
+		Long id = null;
+		
 		if (!StringUtils.isEmpty(vo.get("id"))) {
-			user = getDao().getUserDao().getById(Long.valueOf(vo.get("id")));
+		  id = Long.valueOf(vo.get("id"));
+			user = getDao().getUserDao().getById(id);
 		}
+		
+    if(!getBusiness().getUser().getId().equals(id)) {
+      return ServiceResponse.createErrorResponse(
+          Messages.get("errors_occured"), Arrays.asList("Attempted changing a different user") );
+    }
+
 		if (user == null) {
 			user = new UserEntity();
 		}
@@ -91,6 +76,11 @@ public class UserServiceImpl extends AbstractServiceImpl
 			user.setPassword(BCrypt.hashpw(vo.get("password"), 
 					BCrypt.gensalt()));
 		}
+		else if( user.password == null ) {
+      return ServiceResponse.createErrorResponse(
+          Messages.get("errors_occured"), Arrays.asList("Password cannot be empty") );
+		}
+		  
 		if (!StringUtils.isEmpty(vo.get("role"))) {
 			user.setRole(UserRole.valueOf(vo.get("role")));
 		}
@@ -100,8 +90,10 @@ public class UserServiceImpl extends AbstractServiceImpl
 		if (!StringUtils.isEmpty(vo.get("disabled"))) {
 			user.setDisabled(ParamUtil.getBoolean(vo.get("disabled"), false));
 		}
-		List<String> errors = getBusiness().getUserBusiness()
+		
+    List<String> errors = getBusiness().getUserBusiness()
 				.validateBeforeUpdate(user);
+		
 		if (errors.isEmpty()) {
 			getDao().getUserDao().save(user);
 			return ServiceResponse.createSuccessResponse(
@@ -113,30 +105,10 @@ public class UserServiceImpl extends AbstractServiceImpl
 		}
 	}
 
-	@Override
 	public UserEntity getLoggedIn() {
 		return getBusiness().getUser();
 	}
 
-	@Override
-	public List<UserVO> selectByGroup(String groupId) {
-		return UserVO.create(getDao().getUserDao().selectByGroup(
-				Long.valueOf(groupId)));
-	}
-
-	@Override
-	public ServiceResponse disable(Long userId, boolean disable) {
-		UserEntity user = getDao().getUserDao().getById(userId);
-		if (user == null) {
-			return ServiceResponse.createErrorResponse(Messages.get(
-					"user_not_found"));
-		}
-		user.setDisabled(disable);
-		getDao().getUserDao().save(user);
-		return ServiceResponse.createSuccessResponse(Messages.get("success"));
-	}
-
-	@Override
 	public List<String> getTimezones() {
 		List<String> result = new ArrayList<String>();
 		String[] ids = TimeZone.getAvailableIDs();
@@ -146,6 +118,5 @@ public class UserServiceImpl extends AbstractServiceImpl
 		}
 		return result;
 	}
-
 
 }

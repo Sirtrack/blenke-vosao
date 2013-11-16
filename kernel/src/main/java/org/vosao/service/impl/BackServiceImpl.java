@@ -73,6 +73,7 @@ import org.vosao.service.back.impl.StructureServiceImpl;
 import org.vosao.service.back.impl.StructureTemplateServiceImpl;
 import org.vosao.service.back.impl.TagServiceImpl;
 import org.vosao.service.back.impl.TemplateServiceImpl;
+import org.vosao.service.back.impl.LimitedUserServiceImpl;
 import org.vosao.service.back.impl.UserServiceImpl;
 import org.vosao.service.plugin.PluginServiceManager;
 

@@ -61,7 +61,9 @@ public class AuthenticationFilter extends AbstractFilter implements Filter {
         VosaoContext ctx = VosaoContext.getInstance();
         autoLogin(httpRequest);
         String userEmail = ctx.getSession().getString(USER_SESSION_ATTR);
-        UserEntity user = getDao().getUserDao().getByEmail(userEmail);
+        UserEntity user = null;
+        if( userEmail != null )
+          user = getDao().getUserDao().getByEmail(userEmail);
 		if (user == null) {
 			ctx.getSession().remove(USER_SESSION_ATTR);
 			ctx.setUser(null);

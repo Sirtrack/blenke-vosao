@@ -50,4 +50,8 @@ public class GroupEntity extends BaseEntityImpl {
 		this.name = name;
 	}
 	
+  static GroupEntity getByKey(long id){
+    return getByKey(GroupEntity.class, id);
+  }
+
 }

@@ -98,22 +98,26 @@ public class FolderPermissionServiceImpl extends AbstractServiceImpl
 		List<FolderPermissionEntity> direct = getDao()
 				.getFolderPermissionDao().selectByFolder(folderId);
 		//logger.info("direct " + direct.size());
-		Map<Long, GroupEntity> groups = GroupHelper.createIdMap(getDao()
-				.getGroupDao().select());
+//		Map<Long, GroupEntity> groups = GroupHelper.createIdMap(getDao()
+//				.getGroupDao().select());
 		List<FolderPermissionVO> result = new ArrayList<FolderPermissionVO>();
 		for (FolderPermissionEntity perm : inherited) {
 			if (!containsPermission(direct, perm)
 				&& !containsPermissionVO(result, perm)) {
 				FolderPermissionVO vo = new FolderPermissionVO(perm);
 				vo.setInherited(true);
-				vo.setGroup(groups.get(perm.getGroupId()));
+//				vo.setGroup(groups.get(perm.getGroupId()));
+				GroupEntity group = GroupEntity.getByKey(GroupEntity.class, perm.getGroupId());
+        vo.setGroup(group);
 				result.add(vo);
 			}
 		}
 		for (FolderPermissionEntity perm : direct) {
 			FolderPermissionVO vo = new FolderPermissionVO(perm);
 			vo.setInherited(false);
-			vo.setGroup(groups.get(perm.getGroupId()));
+//			vo.setGroup(groups.get(perm.getGroupId()));
+      GroupEntity group = GroupEntity.getByKey(GroupEntity.class, perm.getGroupId());
+      vo.setGroup(group);
 			result.add(vo);
 		}
 		return result;

@@ -121,7 +121,10 @@ public class FolderServiceImpl extends AbstractServiceImpl
 			result.setAncestors(getDao().getFolderDao().getAncestors(parent));
 			result.setParent(parent);
 		}
-		result.setGroups(getGroupService().select());
+		
+		// commenting out for performance reasons not fully tested
+//		result.setGroups(getGroupService().select());
+
 		result.setFolderPermission(getFolderPermissionService().getPermission(
 				permFolderId));
 		return result;

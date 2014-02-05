@@ -398,13 +398,20 @@ public class PageServiceImpl extends AbstractServiceImpl
 			if (page != null) {
 				String url = page.getFriendlyURL();
 				result.setVersions(getPageVersions(url));
+				
+				// inefficient calls, TODO optimize
 				result.setChildren(getChildren(url));
 				result.setComments(getCommentService().getByPage(url));
+				//
+				
 				result.setContents(getContents(id));
 				result.setPermissions(getContentPermissionService()
 						.selectByUrl(url));
 				
+        // inefficient calls, TODO optimize
 				result.setTags(getPageTags(url));
+				//
+				
 				permUrl = page.getFriendlyURL();
 				if (page.isStructured()) {
 					StructureEntity structure = getDao().getStructureDao()
@@ -444,9 +451,8 @@ public class PageServiceImpl extends AbstractServiceImpl
 			}
 			result.setTemplates(getTemplateService().getTemplates());
 			result.setLanguages(getLanguageService().select());
-			result.setGroups(getGroupService().select());
-			result.setPagePermission(getContentPermissionService()
-					.getPermission(permUrl));
+//			result.setGroups(getGroupService().select()); // more efficient implementation: getContentPermissionService().selectByUrl(url))
+			result.setPagePermission(getContentPermissionService().getPermission(permUrl));
 			result.setStructures(getDao().getStructureDao().select());
 			return result;
 		} catch (Exception e) {

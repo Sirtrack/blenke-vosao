@@ -256,7 +256,9 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
 //    }
 //    return createModels(entities);
     List<T> m = query.fetchKeys();
-    Model.batch(clazz).get(m);
+    
+    if( m.size() > 0 )
+      Model.batch(clazz).get(m);
     
     return m;
   }

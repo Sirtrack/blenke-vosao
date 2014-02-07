@@ -75,10 +75,6 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-		<repository>
-            <id>objectify-appengine</id>
-            <url>http://objectify-appengine.googlecode.com/svn/maven</url>
-        </repository>
     </repositories>
     
     <modules>

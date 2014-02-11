@@ -147,12 +147,10 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
 		
 		QueryAsync<T> q = query.async().paginate(CHUNK_SIZE).stateful();
 		
-		SienaFuture<List<T>> future = q.fetchKeys();
-		List<T> ts = future.get();
+		List<T> ts = q.fetchKeys();
     while( ts.size() > 0 ){
-      future = q.nextPage().fetchKeys();
-      Model.batch(clazz).delete(ts);
-      ts = future.get();
+      Model.batch(clazz).async().delete(ts);
+      ts = q.nextPage().fetchKeys();
     }
 	}
 	
@@ -248,19 +246,12 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
   protected List<T> selectNotCache(Query<T> query) {
     getDao().getDaoStat().incQueryCalls();
 
-//    List<Entity> entities = new ArrayList<Entity>();
-//    Query<T> q = query.paginate(CHUNK_SIZE).stateful();
-//    List<T> ts = q.fetchKeys();
-//    for (Entity entity : p.asIterable(FetchOptions.Builder.withChunkSize(CHUNK_SIZE))) {
-//      entities.add(entity);
-//    }
-//    return createModels(entities);
     List<T> m = query.fetchKeys();
     
     if( m.size() > 0 )
-      Model.batch(clazz).get(m);
+      m = Model.batch(clazz).async().get(m);
     
-    return m;
+    return m; 
   }
   
   
@@ -289,6 +280,7 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
 	
 	@Override
 	public int count() {
+	  // very expensive operation (gets all keys than counts), consider implementing counters instead
 		return Model.all(clazz).count();
 	}
 

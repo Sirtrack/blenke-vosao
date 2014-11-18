@@ -35,7 +35,6 @@ import org.vosao.entity.BaseEntityImpl;
 import siena.Model;
 import siena.Query;
 import siena.core.async.QueryAsync;
-import siena.core.async.SienaFuture;
 
 public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl implements BaseDao<T>{
 	
@@ -207,7 +206,7 @@ public class BaseDaoImpl<T extends BaseEntityImpl> extends AbstractDaoImpl imple
     return select(query, queryId, QUERY_LIMIT, params);
   }
 
-  protected T selectOne(Query query, String queryId, int queryLimit, 
+  protected T selectOne(Query<T> query, String queryId, int queryLimit, 
       Object[] params) {
     T result = (T) getQueryCache().getQueryOne(clazz, queryId, params);
     

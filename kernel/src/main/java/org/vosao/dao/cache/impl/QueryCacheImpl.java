@@ -181,7 +181,7 @@ public class QueryCacheImpl implements QueryCache, Serializable {
 		Map<Long, BaseEntity> result = new HashMap<Long, BaseEntity>();
 		try {
 			getDaoStat().incGetCalls();
-			List<? extends BaseEntity> ls = Model.batch(clazz).getByKeys(keys);
+			List<? extends BaseEntity> ls = Model.batch(clazz).async().getByKeys(keys);
 			
 			for( BaseEntity entity : ls) {
 				result.put(entity.getId(), entity);

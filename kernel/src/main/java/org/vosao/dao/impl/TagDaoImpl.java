@@ -24,6 +24,7 @@ package org.vosao.dao.impl;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.vosao.dao.BaseDaoImpl;
@@ -41,17 +42,28 @@ public class TagDaoImpl extends BaseDaoImpl<TagEntity>
 
 	@Override
 	public TagEntity getByName(final Long parent, final String name) {
-		Query q = newQuery();
-		q.filter("parent", parent);
+		Query<TagEntity> q = newQuery();
+		if( parent!= null )
+		  q.filter("parent", parent);
 		q.filter("name", name);
 		return selectOne(q, "getByName", params(parent, name));
 	}
 
 	@Override
 	public List<TagEntity> selectByParent(final Long parent) {
-		Query q = newQuery();
-		q.filter("parent", parent);
-		return select(q, "selectByParent", params(parent));
+		Query<TagEntity> q = newQuery();
+		if( parent != null )
+		  q.filter("parent", parent);
+		List<TagEntity> lt = select(q, "selectByParent", params(parent));
+		if( parent == null ){
+		  List<TagEntity> rlt = new ArrayList<TagEntity>();
+		  for( TagEntity t : lt ){
+		    if( t.parent==null )
+		      rlt.add(t);
+		  }
+		  return rlt;
+		}
+		return lt;
 	}
 
 }

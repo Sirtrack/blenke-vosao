@@ -86,21 +86,21 @@
             <artifactId>commons-io</artifactId>
             <version>1.4</version>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>1.6</version>
-        </dependency>
-        <dependency>
+        </dependency-->
+        <!--dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <version>3.2</version>
-        </dependency>
-        <dependency>
+        </dependency-->
+        <!--dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
             <version>1.8.1</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
@@ -208,7 +208,7 @@
 		<dependency>
 			<groupId>siena</groupId>
 			<artifactId>siena</artifactId>
-			<version>1.0.0-b7</version>
+			<version>1.0.0-b8</version>
         </dependency>
 
     </dependencies>

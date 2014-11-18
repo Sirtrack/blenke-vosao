@@ -50,7 +50,8 @@ public class FolderDaoImpl extends BaseDaoImpl<FolderEntity>
 	public FolderEntity getByParentName(final Long parentId, 
 			final String name) {
 		Query q = newQuery();
-		q.filter("parentId", parentId);
+		if( parentId != null)
+		  q.filter("parentId", parentId);
 		q.filter("name", name);
 		return selectOne(q, "getByParentName", params(parentId, name));
 	}

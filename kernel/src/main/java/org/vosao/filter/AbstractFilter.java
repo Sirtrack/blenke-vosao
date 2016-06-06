@@ -22,6 +22,8 @@
 
 package org.vosao.filter;
 
+import java.util.logging.Logger;
+
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -39,42 +41,46 @@ import org.vosao.global.SystemService;
  * @author Alexander Oleynik
  */
 public abstract class AbstractFilter {
-	
-    protected static final Log logger = LogFactory.getLog(AbstractFilter.class);
 
-    private FilterConfig config;
-	private ServletContext servletContext;
+//  protected static final Log logger = LogFactory.getLog(AbstractFilter.class);
+  protected static final Logger logger = Logger.getLogger(AbstractFilter.class.getName());
+      
+  private FilterConfig config;
+  private ServletContext servletContext;
 
-	public AbstractFilter() {
-	}
+  public AbstractFilter() {
+  }
 
-	public void init(FilterConfig filterConfig) throws ServletException {
-		config = filterConfig;
-		servletContext = config.getServletContext();
-	}
-	
-	public void destroy() {
-	}
-	
-	protected Dao getDao() {
-		return getBusiness().getDao();
-	}
+  public void init(FilterConfig filterConfig) throws ServletException {
+    config = filterConfig;
+    servletContext = config.getServletContext();
+  }
 
-	protected Business getBusiness() {
-		return VosaoContext.getInstance().getBusiness();
-	}
-	
-	protected MessageQueue getMessageQueue() {
-		return VosaoContext.getInstance().getMessageQueue();
-	}
+  public void destroy() {
+  }
 
-	protected SystemService getSystemService() {
-		return getBusiness().getSystemService();
-	}
-	
-	protected boolean isLoggedIn(final HttpServletRequest request) {
-		return VosaoContext.getInstance().getSession().getString(
-				AuthenticationFilter.USER_SESSION_ATTR) != null;
-	}
+  protected Dao getDao() {
+    return getBusiness().getDao();
+  }
+
+  protected Business getBusiness() {
+    return VosaoContext.getInstance()
+        .getBusiness();
+  }
+
+  protected MessageQueue getMessageQueue() {
+    return VosaoContext.getInstance()
+        .getMessageQueue();
+  }
+
+  protected SystemService getSystemService() {
+    return getBusiness().getSystemService();
+  }
+
+  protected boolean isLoggedIn(final HttpServletRequest request) {
+    return VosaoContext.getInstance()
+        .getSession()
+        .getString(AuthenticationFilter.USER_SESSION_ATTR) != null;
+  }
 
 }

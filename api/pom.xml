@@ -43,7 +43,6 @@
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-tools-sdk</artifactId>
 			<version>${gae.version}</version>
-			<scope>provided</scope>
 		</dependency>		
 		<dependency>
 			<groupId>com.google.appengine</groupId>
@@ -112,10 +111,10 @@
         </dependency>
 
         <dependency>
-            <groupId>velocity-tools</groupId>
-            <artifactId>velocity-tools</artifactId>
-            <version>2.0</version>
-        </dependency>
+		    <groupId>org.apache.velocity</groupId>
+		    <artifactId>velocity-tools</artifactId>
+		    <version>2.0</version>
+		</dependency>
 
         <!-- xml -->
         
@@ -164,19 +163,19 @@
 
         <!-- Google Picasa -->
 
-        <dependency>
-            <groupId>com.google</groupId>
-            <artifactId>google-collect</artifactId>
-            <version>1.0</version>
-        </dependency>
+       <dependency>
+		    <groupId>com.google.collections</groupId>
+		    <artifactId>google-collections</artifactId>
+		    <version>1.0</version>
+		</dependency>
 
         <dependency>
-            <groupId>com.google.gdata</groupId>
-            <artifactId>gdata-core</artifactId>
-            <version>1.0</version>
-        </dependency>
+		    <groupId>com.google.gdata</groupId>
+		    <artifactId>core</artifactId>
+		    <version>1.47.1</version>
+		</dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>com.google.gdata</groupId>
             <artifactId>gdata-media</artifactId>
             <version>1.0</version>
@@ -192,15 +191,14 @@
             <groupId>com.google.gdata</groupId>
             <artifactId>gdata-photos-meta</artifactId>
             <version>2.0</version>
-        </dependency>
+        </dependency-->
         
         <!-- Bliki wiki engine -->
-
 		<dependency>
-            <groupId>info.bliki.wiki</groupId>
-            <artifactId>bliki-core</artifactId>
-            <version>3.0.15</version>
-        </dependency>
+		    <groupId>info.bliki.wiki</groupId>
+		    <artifactId>bliki-core</artifactId>
+		    <version>3.0.19</version>
+		</dependency>
 
 		<dependency>
 			<groupId>siena</groupId>

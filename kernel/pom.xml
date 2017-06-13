@@ -189,7 +189,6 @@
         </dependency-->
        
         <!-- Bliki wiki engine -->
-
 		<dependency>
             <groupId>info.bliki.wiki</groupId>
             <artifactId>bliki-core</artifactId>

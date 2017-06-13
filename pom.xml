@@ -54,6 +54,11 @@
     
     <repositories>
         <repository>
+            <id>mvnrepository.com</id>
+            <name>mvnrepository.com</name>
+            <url>https://mvnrepository.com</url>
+        </repository>
+        <!--repository>
             <id>central</id>
             <name>Maven Central</name>
             <url>http://repo1.maven.org/maven2/</url>
@@ -66,7 +71,7 @@
         <repository>
             <id>google-maven-central</id>
             <url>https://maven-central.storage.googleapis.com</url>
-        </repository>
+        </repository-->
         <repository>
             <id>datanucleus</id>
             <url>http://www.datanucleus.org/downloads/maven2</url>

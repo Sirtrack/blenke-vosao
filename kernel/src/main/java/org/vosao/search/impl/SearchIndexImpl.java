@@ -115,8 +115,10 @@ public class SearchIndexImpl implements SearchIndex {
 			FileEntity file = getBusiness().getFileBusiness()
 					.saveFile(getIndexFilename(), indexContent);
 			indexModDate = file.getLastModifiedTime();
-			getBusiness().getSystemService().getCache().getMemcache().put(
-					getIndexKey(), indexModDate);
+//			getBusiness().getSystemService().getCache()
+//			.getMemcache() // null
+//			.put(
+//					getIndexKey(), indexModDate);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -215,8 +217,10 @@ public class SearchIndexImpl implements SearchIndex {
 	}
 	
 	private void refreshIndex() {
-		Date date = (Date) getBusiness().getSystemService().getCache()
-				.getMemcache().get(getIndexKey());
+	  Date date = null;
+//		Date date = (Date) getBusiness().getSystemService().getCache()
+//		    .getMemcache() // null
+//		    .get(getIndexKey());
 		if (index == null || date == null || !date.equals(indexModDate)) {
 			loadIndex();
 		}
@@ -241,12 +245,14 @@ public class SearchIndexImpl implements SearchIndex {
 				String strIndex = StrUtil.unzipStringFromBytes(data);
 				indexFromString(strIndex);
 				indexModDate = file.getLastModifiedTime();
-				Date dt = (Date)getBusiness().getSystemService().getCache()
-						.getMemcache().get(getIndexKey());
-				if (dt == null || dt.before(indexModDate)) {
-					getBusiness().getSystemService().getCache().getMemcache()
-							.put(getIndexKey(), indexModDate);
-				}
+				
+//				Date dt = (Date)getBusiness().getSystemService().getCache()
+//						.getMemcache() // null
+//						.get(getIndexKey());
+//				if (dt == null || dt.before(indexModDate)) {
+//					getBusiness().getSystemService().getCache().getMemcache()
+//							.put(getIndexKey(), indexModDate);
+//				}
 			}
 			else {
 				logger.error("Search index is empty. " + getIndexFilename());

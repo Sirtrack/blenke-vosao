@@ -79,7 +79,7 @@ public class InitFilter extends AbstractFilter implements Filter {
         //startProfile();
         chain.doFilter(request, response);
         //endProfile(httpRequest.getRequestURL().toString());
-        getBusiness().getSystemService().getCache().resetLocalCache();
+//        getBusiness().getSystemService().getCache().resetLocalCache(); // moved to Context Filter
     }
     
     private void startProfile() {

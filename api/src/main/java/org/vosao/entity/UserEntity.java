@@ -123,7 +123,7 @@ public class UserEntity extends BaseEntityImpl {
 		return isAdmin() || isUser();
 	}
 
-	public String getForgotPasswordKey() {
+	private String getForgotPasswordKey() {
 		return forgotPasswordKey;
 	}
 

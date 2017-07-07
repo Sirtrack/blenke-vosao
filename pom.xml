@@ -53,11 +53,11 @@
     </pluginRepositories>
     
     <repositories>
-        <repository>
+        <!--repository>
             <id>mvnrepository.com</id>
             <name>mvnrepository.com</name>
             <url>https://mvnrepository.com</url>
-        </repository>
+        </repository-->
         <!--repository>
             <id>central</id>
             <name>Maven Central</name>
@@ -72,10 +72,10 @@
             <id>google-maven-central</id>
             <url>https://maven-central.storage.googleapis.com</url>
         </repository-->
-        <repository>
+        <!--repository>
             <id>datanucleus</id>
             <url>http://www.datanucleus.org/downloads/maven2</url>
-        </repository>
+        </repository-->
         <!--repository>
             <id>dist</id>
             <name>Dist</name>
@@ -122,7 +122,7 @@
     <properties>
       <gae.application.id>vosaocms</gae.application.id>
       <gae.application.version>vosaocms-0-9</gae.application.version>
-	  <gae.version>1.9.42</gae.version>
+	  <gae.version>1.9.54</gae.version>
       <vosao.version>0.9</vosao.version>
       <vosao.version.full>0.9.14</vosao.version.full>
       <vosao.admin.username>admin</vosao.admin.username>
